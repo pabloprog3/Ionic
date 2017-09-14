@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Login Aula
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list>
+    <ion-item>
+      <ion-label>Seleccionar Usuario</ion-label>
+      <ion-select (ionChange)="writePassw()"  [(ngModel)]="nombre">
+        <ion-option value="admin">Admin</ion-option>
+        <ion-option value="invitado">Invitado</ion-option>
+        <ion-option value="usuario">Usuario</ion-option>
+        <ion-option value="j1">Jugador 1</ion-option>
+        <ion-option value="j2">Jugador 2</ion-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-input type="password" placeholder="Password" [(ngModel)]="passw"></ion-input>
+    </ion-item>
+
+  </ion-list>
+
+
+
+  <button ion-button round color="secondary" (click)="login()">
+    Login <br>
+    <ion-icon name="arrow-dropright"></ion-icon>
+  </button>
+
+  <button ion-button round outline (click)="salir()">
+    Salir
+  </button>
+
+
+  <ion-label color="danger" *ngIf="errCred" stacked>Credenciales incorrectas. Verifique los datos ingresados</ion-label>
+
+</ion-content>
+
+
