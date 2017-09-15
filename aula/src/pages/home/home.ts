@@ -29,6 +29,7 @@ export class HomePage {
       this.errCred = true;
     }else{
       this.errCred = false;
+      this.navCtrl.push("AdminPage");
     }
   }
 

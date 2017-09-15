@@ -1,0 +1,8 @@
+{
+  "name": "piano",
+  "app_id": "d7d2534d",
+  "type": "ionic-angular",
+  "integrations": {
+    "cordova": {}
+  }
+}
