@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, Platform } from 'ionic-angular';
 import { Login } from '../../clases/login';
+import { Firebase } from '@ionic-native/firebase';
 
 @Component({
   selector: 'page-home',
@@ -13,7 +14,7 @@ export class HomePage {
   private passw: number;
   private errCred: boolean;
 
-  constructor(public navCtrl: NavController, public platform:Platform) {
+  constructor(public navCtrl: NavController, public platform:Platform, public firebase:Firebase) {
     this.nombre = "";
     this.passw = null;
     this.errCred = false;
@@ -24,7 +25,7 @@ export class HomePage {
     this.usuario = new Login();
     this.usuario.setNombre(this.nombre);
     this.usuario.setClave(this.passw);
-    //console.log('usuario: ', this.usuario);
+
     if (this.usuario.getNombre() == "" || this.usuario.getClave() == null) {
       this.errCred = true;
     }else{
