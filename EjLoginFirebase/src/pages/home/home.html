@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-navbar color="secondary">
+    <ion-title >Login</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+ 
+  <div *ngIf="!logueado">
+    <ion-list>
+      <ion-item>
+        <ion-label fixed>Usuario</ion-label>
+        <ion-input type="text" value=""  [(ngModel)]="Login.usuario"></ion-input>
+      </ion-item>
+    
+      <ion-item>
+        <ion-label fixed>Clave</ion-label>
+        <ion-input type="password" value=""  [(ngModel)]="Login.clave"></ion-input>
+      </ion-item>
+      <br>
+      <button ion-button color="secondary" (click)="login()" full>Ingresar</button>
+    </ion-list>
+  <br>
+
+    <ion-card>
+
+          <ion-card-content>
+              <ion-label>Usuario: usuario1@mail.com</ion-label>
+              <ion-label>Clave: 123456</ion-label>
+          </ion-card-content>
+        
+    </ion-card>
+  </div>
+  <div *ngIf="logueado">
+      <button ion-button color="secondary" (click)="desloguear()" full>Salir</button>
+  </div>
+</ion-content>
