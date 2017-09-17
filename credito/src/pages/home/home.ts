@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, Platform } from 'ionic-angular';
+
+import { Login } from '../../clases/login';
 
 @Component({
   selector: 'page-home',
@@ -7,8 +9,64 @@ import { NavController } from 'ionic-angular';
 })
 export class HomePage {
 
-  constructor(public navCtrl: NavController) {
+  private usuario:Login;
+  private passw:number;
+  private nombre: string;
+  private errCred: boolean;
+
+  constructor(public navCtrl: NavController, public platform:Platform) {
 
   }
+
+
+
+  private login():void{
+    this.usuario = new Login();
+    this.usuario.setNombre(this.nombre);
+    this.usuario.setClave(this.passw);
+    //console.log('usuario: ', this.usuario);
+    if (this.usuario.getNombre() == "" || this.usuario.getClave() == null) {
+      this.errCred = true;
+    }else{
+      this.errCred = false;
+      this.navCtrl.push("AdminPage");
+    }
+  }
+
+
+  private writePassw():void{
+    switch (this.nombre) {
+      case "admin":
+        this.passw = 11;
+        this.errCred = false;
+      break;
+      case "invitado":
+        this.passw = 22;
+        this.errCred = false;
+      break;
+      case "usuario":
+        this.passw = 33;
+        this.errCred = false;
+      break;
+      case "j1":
+        this.passw = 44;
+        this.errCred = false;
+      break;
+      case "j2":
+        this.passw = 55;
+        this.errCred = false;
+      break;
+
+      default:
+      break;
+    }
+  }
+
+
+  private salir():void{
+        this.platform.exitApp();
+  }
+
+
 
 }

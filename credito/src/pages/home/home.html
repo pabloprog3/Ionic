@@ -1,14 +1,63 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      Ionic Blank
+      Creditos
     </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+
+  <ion-list radio-group [(ngModel)]="nombre" (ionChange)="writePassw()">
+    <ion-list-header>
+      USUARIO
+    </ion-list-header>
+
+    <ion-item>
+      <ion-label>Admin</ion-label>
+      <ion-radio checked="true" value="admin"></ion-radio>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Invitado</ion-label>
+      <ion-radio value="invitado"></ion-radio>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Usuario</ion-label>
+      <ion-radio value="usuario"></ion-radio>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Jugador 1</ion-label>
+      <ion-radio value="j1"></ion-radio>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Jugador 2</ion-label>
+      <ion-radio value="j2"></ion-radio>
+    </ion-item>
+
+  </ion-list>
+
+  <br>
+
+  <ion-item>
+    <ion-input type="password" placeholder="Password" [(ngModel)]="passw"></ion-input>
+  </ion-item>
+
+  <br>
+
+  <button ion-button round (click)="login()">
+    Login <br>
+    <ion-icon name="arrow-dropright"></ion-icon>
+  </button>
+
+  <button ion-button round outline (click)="salir()">
+    Salir
+  </button>
+
+
+  <ion-label color="danger" *ngIf="errCred" stacked>Credenciales incorrectas. Verifique los datos ingresados</ion-label>
+
 </ion-content>
