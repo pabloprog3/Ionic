@@ -9,6 +9,8 @@ import { HomePage } from '../pages/home/home';
 
 //mis importaciones
 import { Firebase } from '@ionic-native/firebase';
+import { ComponentsModule } from '../components/components.module';
+import { InicioSesionComponent } from '../components/inicio-sesion/inicio-sesion';
 
 @NgModule({
   declarations: [
@@ -17,7 +19,8 @@ import { Firebase } from '@ionic-native/firebase';
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    ComponentsModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

@@ -1,0 +1,62 @@
+
+  <ion-item color="warning2">
+    <ion-input color="dark"  type="text" placeholder="Nombre" [(ngModel)]="nombre" text-capitalize></ion-input>
+  </ion-item>
+
+  <br>
+
+  <ion-list radio-group [(ngModel)]="rSexo">
+      <ion-list-header color="warning">
+          <ion-label color="dark">Seleccionar sexo </ion-label>
+      </ion-list-header>
+
+      <ion-item color="warning2">
+        <ion-label>Masculino</ion-label>
+        <ion-radio value="Male"></ion-radio>
+      </ion-item>
+      <ion-item color="warning2">
+        <ion-label>Femenino</ion-label>
+        <ion-radio value="Female"></ion-radio>
+      </ion-item>
+  </ion-list>
+
+  <br>
+
+  <ion-list   radio-group [(ngModel)]="rPerfil">
+      <ion-list-header color="warning">
+         <ion-label color="dark">Seleccionar perfil </ion-label>
+      </ion-list-header>
+    <ion-item color="warning2">
+      <ion-label>Administrador</ion-label>
+      <ion-radio value="Administrador"></ion-radio>
+    </ion-item>
+    <ion-item color="warning2">
+      <ion-label>Usuario</ion-label>
+      <ion-radio value="Usuario"></ion-radio>
+    </ion-item>
+    <ion-item color="warning2">
+      <ion-label>Invitado</ion-label>
+      <ion-radio value="Invitado"></ion-radio>
+    </ion-item>
+    <ion-item color="warning2">
+      <ion-label>Jugador</ion-label>
+      <ion-radio value="Jugador"></ion-radio>
+    </ion-item>
+</ion-list>
+
+  <br>
+
+  <ion-item color="warning2">
+    <ion-input  (ionChange)="confirmPassw()" type="password" placeholder="Clave" [(ngModel)]="passw1"></ion-input>
+  </ion-item>
+
+  <ion-item  color="warning2" >
+    <ion-input (ionChange)="textoInf()" [disabled]="enPassw" type="password" placeholder="Confirmar Clave" [(ngModel)]="passw2"></ion-input>
+  </ion-item>
+
+
+    <ion-label *ngIf="mostrarTextoInf" [color]="OkError">{{textoOkError}}
+        <ion-icon [name]="iconOkErr"></ion-icon>
+    </ion-label>
+
+

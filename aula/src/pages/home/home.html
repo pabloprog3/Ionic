@@ -1,16 +1,15 @@
 <ion-header>
-  <ion-navbar>
-    <ion-title>
-      Login Aula
+  <ion-navbar color="toolbar1">
+    <ion-title text-center color="primary">
+      <ion-label >LOGIN</ion-label>
     </ion-title>
   </ion-navbar>
 </ion-header>
-
-<ion-content padding>
-  <ion-list>
-    <ion-item>
-      <ion-label>Seleccionar Usuario</ion-label>
-      <ion-select (ionChange)="writePassw()"  [(ngModel)]="nombre">
+<ion-content padding style="background-color:rgba(135, 208, 250, 0.86)">
+  <ion-list inset>
+    <ion-item color="primary">
+      <ion-label color="dark">Seleccionar Usuario</ion-label>
+      <ion-select color="primary" (ionChange)="writePassw()"  [(ngModel)]="nombre" cancelText="Cancelar" okText="Elegir" interface="alert">
         <ion-option value="admin">Admin</ion-option>
         <ion-option value="invitado">Invitado</ion-option>
         <ion-option value="usuario">Usuario</ion-option>
@@ -19,22 +18,42 @@
       </ion-select>
     </ion-item>
 
-    <ion-item>
-      <ion-input type="password" placeholder="Password" [(ngModel)]="passw"></ion-input>
+    <br><br>
+
+    <ion-item color="primary2">
+      <ion-label floating>Nombre</ion-label>
+      <ion-input color="input1" type="text" [(ngModel)]="nombre" text-capitalize></ion-input>
+    </ion-item>
+
+    <ion-item color="primary2">
+      <ion-label floating>Password</ion-label>
+      <ion-input color="input1" type="password" (ionChange)="validarCantDigitos($event)" (keypress)="validarNum($event)" [(ngModel)]="passw"></ion-input>
     </ion-item>
 
   </ion-list>
 
-
+  <br>
 
   <button ion-button round color="secondary" (click)="login()">
-    Login <br>
+    Ingresar <br>
     <ion-icon name="arrow-dropright"></ion-icon>
   </button>
 
-  <button ion-button round outline (click)="salir()">
+  <button ion-button round outline (click)="salir()" color="danger">
     Salir
   </button>
+
+  <br><br>
+
+  <ion-card text-center *ngIf="mostrarCardRegistro" color="warning">
+    <ion-card-header color="primary">
+      Ó si no tiene cuenta...
+    </ion-card-header>
+    <ion-card-content>
+      <button ion-button round outline color="dark" (click)="mostrarRegistro()" color="boton1">Registrarse</button>
+      <inicio-sesion *ngIf="registrar"></inicio-sesion>
+    </ion-card-content>
+  </ion-card>
 
 
   <ion-label color="danger" *ngIf="errCred" stacked>Credenciales incorrectas. Verifique los datos ingresados</ion-label>
