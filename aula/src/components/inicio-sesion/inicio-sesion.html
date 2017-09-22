@@ -1,6 +1,12 @@
 
   <ion-item color="warning2">
-    <ion-input color="dark"  type="text" placeholder="Nombre" [(ngModel)]="nombre" text-capitalize></ion-input>
+    <ion-input color="dark"  type="text" placeholder="nombre" [(ngModel)]="nombre" text-capitalize></ion-input>
+  </ion-item>
+
+  <br>
+
+  <ion-item color="warning2">
+    <ion-input color="dark"  type="text" placeholder="Correo" [(ngModel)]="correo"></ion-input>
   </ion-item>
 
   <br>
@@ -28,19 +34,19 @@
       </ion-list-header>
     <ion-item color="warning2">
       <ion-label>Administrador</ion-label>
-      <ion-radio value="Administrador"></ion-radio>
+      <ion-radio value="admin"></ion-radio>
     </ion-item>
     <ion-item color="warning2">
       <ion-label>Usuario</ion-label>
-      <ion-radio value="Usuario"></ion-radio>
+      <ion-radio value="usuario"></ion-radio>
     </ion-item>
     <ion-item color="warning2">
       <ion-label>Invitado</ion-label>
-      <ion-radio value="Invitado"></ion-radio>
+      <ion-radio value="invitado"></ion-radio>
     </ion-item>
     <ion-item color="warning2">
       <ion-label>Jugador</ion-label>
-      <ion-radio value="Jugador"></ion-radio>
+      <ion-radio value="jugador"></ion-radio>
     </ion-item>
 </ion-list>
 
@@ -54,9 +60,18 @@
     <ion-input (ionChange)="textoInf()" [disabled]="enPassw" type="password" placeholder="Confirmar Clave" [(ngModel)]="passw2"></ion-input>
   </ion-item>
 
-
-    <ion-label *ngIf="mostrarTextoInf" [color]="OkError">{{textoOkError}}
+  <ion-item *ngIf="mostrarTextoInf" [color]="OkError">
+    <ion-label >{{textoOkError}}
         <ion-icon [name]="iconOkErr"></ion-icon>
     </ion-label>
+  </ion-item>
 
+  <button [disabled]="enableConfirmUser" ion-button icon-start (click)="registrarseFirebase()" round>
+    <ion-icon name="star"></ion-icon>
+    Confirmar
+  </button>
+
+  <button ion-button icon-end (click)="cancelarRegistro()" outline round>
+    Cancelar
+  </button>
 

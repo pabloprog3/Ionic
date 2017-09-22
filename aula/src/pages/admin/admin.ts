@@ -1,12 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
 
-/**
- * Generated class for the AdminPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { LoginServiceProvider } from '../../providers/login-service/login-service';
+
 
 @IonicPage()
 @Component({
@@ -15,15 +11,18 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class AdminPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-  }
+  constructor(public navCtrl: NavController, public navParams: NavParams,
+              private servicio:LoginServiceProvider
+
+  ) {}
 
   ionViewDidLoad() {
     //console.log('ionViewDidLoad AdminPage');
   }
 
-  irAtras(){
-    this.navCtrl.pop();
+  deslogear(){
+    this.servicio.logOut();
+    this.navCtrl.goToRoot({});
   }
 
 }

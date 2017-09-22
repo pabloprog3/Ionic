@@ -1,22 +1,24 @@
 
   <ion-header>
-    <ion-title text-center text-uppercase>
-      <ion-label color="danger">Administrador</ion-label>
-    </ion-title>
+    <ion-navbar color="dark">
+      <ion-title  text-center text-uppercase>
+        <ion-label color = "danger">Administrador</ion-label>
+      </ion-title>
+    </ion-navbar>
   </ion-header>
 
-<ion-content padding color="dark">
+<ion-content padding style="background-color:rgba(135, 208, 250, 0.86)">
 
-  <button ion-button color="warning" block>Nuevo Usuario</button>
-  <button ion-button block>Ir Chat</button>
-
+  <button ion-button color="warning" block round>Nuevo Usuario</button>
+  <button ion-button block round>Ir Chat</button>
+  <button ion-button block color="dark" round>Lista Usuarios</button>
 </ion-content>
 
 <ion-footer>
-    <ion-toolbar>
-      <ion-title text-center (click)="irAtras()"><ion-label >Volver</ion-label></ion-title>
+    <ion-toolbar color="primary">
+      <ion-title text-center (click)="deslogear()"><ion-label >Deslogear</ion-label></ion-title>
     </ion-toolbar>
-  </ion-footer>
+</ion-footer>
 
 
 

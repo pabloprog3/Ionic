@@ -10,18 +10,18 @@
     <ion-item color="primary">
       <ion-label color="dark">Seleccionar Usuario</ion-label>
       <ion-select color="primary" (ionChange)="writePassw()"  [(ngModel)]="nombre" cancelText="Cancelar" okText="Elegir" interface="alert">
-        <ion-option value="admin">Admin</ion-option>
-        <ion-option value="invitado">Invitado</ion-option>
-        <ion-option value="usuario">Usuario</ion-option>
-        <ion-option value="j1">Jugador 1</ion-option>
-        <ion-option value="j2">Jugador 2</ion-option>
+        <ion-option value="admin@admin.com">Admin</ion-option>
+        <ion-option value="invitado@invitado.com">Invitado</ion-option>
+        <ion-option value="usuario@usuario.com">Usuario</ion-option>
+        <ion-option value="jugador1@jugador.com">Jugador 1</ion-option>
+        <ion-option value="jugador2@jugador.com">Jugador 2</ion-option>
       </ion-select>
     </ion-item>
 
     <br><br>
 
     <ion-item color="primary2">
-      <ion-label floating>Nombre</ion-label>
+      <ion-label floating>Correo</ion-label>
       <ion-input color="input1" type="text" [(ngModel)]="nombre" text-capitalize></ion-input>
     </ion-item>
 

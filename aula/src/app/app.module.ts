@@ -11,6 +11,21 @@ import { HomePage } from '../pages/home/home';
 import { Firebase } from '@ionic-native/firebase';
 import { ComponentsModule } from '../components/components.module';
 import { InicioSesionComponent } from '../components/inicio-sesion/inicio-sesion';
+import { LoginServiceProvider } from '../providers/login-service/login-service';
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { AngularFireAuthModule }  from 'angularfire2/auth';
+
+
+export const  configFirebase = {
+  apiKey: "AIzaSyAdXMV2gkladQLgTcKgNjuAgfDT1ok5Ijs",
+  authDomain: "aula-e6937.firebaseapp.com",
+  databaseURL: "https://aula-e6937.firebaseio.com",
+  projectId: "aula-e6937",
+  storageBucket: "aula-e6937.appspot.com",
+  messagingSenderId: "433695017385"
+};
+
 
 @NgModule({
   declarations: [
@@ -20,7 +35,10 @@ import { InicioSesionComponent } from '../components/inicio-sesion/inicio-sesion
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
-    ComponentsModule
+    ComponentsModule,
+    AngularFireModule.initializeApp(configFirebase),
+    AngularFireDatabaseModule,
+    AngularFireAuthModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -31,7 +49,8 @@ import { InicioSesionComponent } from '../components/inicio-sesion/inicio-sesion
     StatusBar,
     Firebase,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    LoginServiceProvider
   ]
 })
 export class AppModule {}
