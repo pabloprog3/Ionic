@@ -1,11 +1,14 @@
-<button ion-button color="color1" clear (click)=loginAdmin()>Admin</button>
-<button ion-button clear (click)=loginUsuario()>Usuario</button>
-<button ion-button color="secondary" clear (click)=loginInvitado()>Invitado</button>
-<button ion-button color="danger" clear (click)=loginJ1()>Jugador 1</button>
-<button ion-button color="dark" clear (click)=loginJ2()>Jugador 2</button>
+<ion-content padding style="background-color:rgba(135, 208, 250, 0.86)">
+
+  <button ion-button color="color1" clear (click)=loginAdmin()>Admin</button>
+  <button ion-button clear (click)=loginUsuarioo()>Usuario</button>
+  <button ion-button color="secondary" clear (click)=loginInvitado()>Invitado</button>
+  <button ion-button color="danger" clear (click)=loginJ1()>Jugador 1</button>
+  <button ion-button color="dark" clear (click)=loginJ2()>Jugador 2</button>
 
 
-<ion-list>
+
+  <ion-list>
 
     <ion-item>
       <ion-label stacked>Nombre</ion-label>
@@ -21,16 +24,17 @@
 
   <br>
 
-  <ion-item>
+
       <button  ion-button round (click)="login()">
         Login
       </button>
-  </ion-item>
 
-  <ion-item>
+
+
     <button ion-button round outline (click)="salir()">
       Salir
     </button>
-</ion-item>
 
-<ion-label color="danger" *ngIf="errCred" stacked>Credenciales incorrectas. Verifique los datos ingresados</ion-label>
+
+  <ion-label color="danger" *ngIf="errCred" stacked>Credenciales incorrectas. Verifique los datos ingresados</ion-label>
+</ion-content>

@@ -1,12 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
-/**
- * Generated class for the UsuarioPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import {LoginServiceProvider} from '../../providers/login-service/login-service';
 
 @IonicPage()
 @Component({
@@ -15,11 +10,18 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class UsuarioPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-  }
+  constructor(public navCtrl: NavController, public navParams: NavParams,
+              private servicio:LoginServiceProvider
+
+  ) {}
 
   ionViewDidLoad() {
 
+  }
+
+  deslogear(){
+    this.servicio.logOut();
+    this.navCtrl.goToRoot({});
   }
 
 }

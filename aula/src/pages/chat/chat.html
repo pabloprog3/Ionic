@@ -1,0 +1,28 @@
+
+<ion-header>
+
+  <ion-navbar color="toolbar1">
+    <ion-title color="primary">Sala: {{nombreSala}}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding style="background-color:rgba(91, 192, 247, 0.86)">
+
+    <ion-item>
+        <ion-textarea (keypress)="changeMsj($event)" placeholder="Escriba su mensaje aquí"></ion-textarea>
+    </ion-item>
+    <ion-badge color="secondary">{{MAX_MENSAJE}}</ion-badge>
+
+    <button ion-button color="dark" round>
+      Enviar
+    </button>
+
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar color="primary">
+    <ion-title text-center (click)="volver()"><ion-label >Volver</ion-label></ion-title>
+  </ion-toolbar>
+</ion-footer>

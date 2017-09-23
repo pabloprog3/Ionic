@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
-import { NavController, Platform } from 'ionic-angular';
+import { NavController, Platform, AlertController } from 'ionic-angular';
+import { LoginServiceProvider } from '../../providers/login-service/login-service';
 
 import { Login } from '../../clases/login';
+import { Usuario } from '../../clases/usuario';
 
 @Component({
   selector: 'page-home',
@@ -11,56 +13,85 @@ export class HomePage {
 
   private nombre: string;
   private passw: number;
-  private usuario: Login;
+  private loginUser: Login;
   private errCred: boolean;
+  private usuarios:any;
+  private usuario:Login;
 
-  constructor(public navCtrl: NavController, public platform: Platform) {
-      this.nombre = "";
-      this.passw = null;
-      this.errCred = false;
-  }
+  constructor(public navCtrl: NavController, public platform: Platform,
+              private auth:LoginServiceProvider, public alertCtrl:AlertController
+
+  ) {}
 
   private loginAdmin():void{
-      this.nombre = 'Admin';
-      this.passw = 11;
+      this.nombre = 'admin@admin.com';
+      this.passw = 111111;
   }
 
-  private loginUsuario():void{
-    this.nombre = 'Usuario';
-    this.passw = 22;
+  private loginUsuarioo():void{
+    this.nombre = 'usuario@usuario.com';
+    this.passw = 222222;
   }
 
   private loginInvitado():void{
-    this.nombre = 'Invitado';
-    this.passw = 33;
+    this.nombre = 'invitado@invitado.com';
+    this.passw = 333333;
   }
 
   private loginJ1():void{
-    this.nombre = 'Jugador 1';
-    this.passw = 44;
+    this.nombre = 'jugador1@jugador.com';
+    this.passw = 444444;
   }
 
   private loginJ2():void{
-    this.nombre = 'Jugador 2';
-    this.passw = 55;
+    this.nombre = 'jugador2@jugador.com';
+    this.passw = 555555;
   }
 
-  private login():void{
-    this.usuario = new Login();
-    this.usuario.setNombre(this.nombre);
-    this.usuario.setClave(this.passw);
-    //console.log('usuario: ', this.usuario);
-    if (this.usuario.getNombre() == "" || this.usuario.getClave() == null) {
-      this.errCred = true;
+  ionViewDidLoad(){
+    this.nombre = "";
+    this.passw = null;
+    this.errCred = false;
+    this.passw = null;
+
+    this.auth.getPerfilLogin().subscribe(usuarios=>this.usuarios = usuarios);
+    this.loginUser = new Login();
+   }
+
+   login():void{
+    this.loginUser.setNombre(this.nombre);
+    this.loginUser.setClave(this.passw);
+
+    this.auth.loginUser(this.loginUser.getNombre(), this.passw.toString());
+
+    this.usuarios.forEach(usuario => {
+      if (usuario['correo'] == this.loginUser.getNombre()) {
+        this.loginUser.setPerfil(usuario['perfil']);
+      }
+    });
+    if(this.loginUser.getPerfil() == ""){
+      let msjAlert = this.alertCtrl.create({
+        title: '¡Usuario inválido!',
+        subTitle: 'Los datos ingresados no corresponden a un usuario registrado',
+        buttons: ['Aceptar']
+      });
+      msjAlert.present();
     }else{
-      this.errCred = false;
-      this.navCtrl.push("AdminPage");
+      this.navCtrl.push('VotoPage', this.loginUser.getNombre());
     }
+
   }
+
+
+  private votar():void{
+
+  }
+
 
   private salir():void{
     this.platform.exitApp();
   }
-    
+
+
 
 }

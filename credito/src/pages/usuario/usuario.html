@@ -1,0 +1,22 @@
+
+<ion-header>
+
+  <ion-navbar color="danger">
+    <ion-title text-center>Usuario</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding style="background-color:rgba(21, 21, 226, 0.8)">
+
+  <scanner-qr [perfil]="usuario"> </scanner-qr>
+
+</ion-content>
+
+<ion-footer>
+    <ion-toolbar color="primary">
+      <ion-title text-center (click)="deslogear()"><ion-label >Deslogear</ion-label></ion-title>
+    </ion-toolbar>
+</ion-footer>
+
