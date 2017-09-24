@@ -8,7 +8,7 @@ import { Usuario } from '../../clases/usuario';
 @Injectable()
 export class LoginServiceProvider {
 
-  constructor(public db:AngularFireDatabase, private auth:AngularFireAuth) {
+  constructor(private db:AngularFireDatabase, private auth:AngularFireAuth) {
 
   }
 

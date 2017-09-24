@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {AlertController, NavController, Platform} from 'ionic-angular';
 
+import { UsuarioServiceProvider } from '../../providers/usuario-service/usuario-service';
+import {Usuario} from '../../clases/usuario';
 
 
 @Component({
@@ -21,9 +23,16 @@ export class InicioSesionComponent {
   private rSexo: string = "";
   private rPerfil: string = "";
   private enableConfirmUser: boolean = true;
+  private usuario:Usuario;
 
-  constructor(public alertCtrl:AlertController) {
 
+  constructor(public alertCtrl:AlertController, private servicio:UsuarioServiceProvider,
+              public navCtrl:NavController
+
+  ) {}
+
+  ngOnInit(){
+    this.usuario = new Usuario();
   }
 
   private confirmPassw():void{
@@ -59,6 +68,30 @@ export class InicioSesionComponent {
 
   private registrarseFirebase():void{
     this.configAlertas();
+    if (this.usuario != null && this.usuario != undefined) {
+      this.usuario.setClave(this.passw1);
+      this.usuario.setNombre(this.nombre);
+      this.usuario.setCorreo(this.correo);
+      this.usuario.setPerfil(this.rPerfil);
+      this.usuario.setSexo(this.rSexo);
+      //console.log('usuario: ', this.usuario);
+      this.servicio.guardarUsuario(this.usuario);
+      let alert = this.alertCtrl.create({
+        subTitle: '¡Registro Correcto!',
+        buttons: [
+          {
+            text: 'Confirmar'
+          }
+        ]
+      });
+      alert.present();
+
+      this.cancelarRegistro();
+      this.navCtrl.popToRoot();
+    } else {
+      console.log('error usuario');
+    }
+
   }
 
   private cancelarRegistro():void{
@@ -89,7 +122,7 @@ export class InicioSesionComponent {
             }
           }
         ]
-      });
+      }); //fin config alerta
       alert.present();
     }
 

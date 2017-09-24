@@ -15,6 +15,7 @@ import { LoginServiceProvider } from '../providers/login-service/login-service';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule }  from 'angularfire2/auth';
+import { UsuarioServiceProvider } from '../providers/usuario-service/usuario-service';
 
 
 export const  configFirebase = {
@@ -50,7 +51,8 @@ export const  configFirebase = {
     Firebase,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    LoginServiceProvider
+    LoginServiceProvider,
+    UsuarioServiceProvider
   ]
 })
 export class AppModule {}
