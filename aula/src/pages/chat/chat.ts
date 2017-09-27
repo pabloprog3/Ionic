@@ -1,5 +1,11 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Component, Input } from '@angular/core';
+import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+
+import { Mensaje } from '../../clases/mensaje';
+import { UsuarioServiceProvider } from '../../providers/usuario-service/usuario-service';
+
+import { FirebaseListObservable } from 'angularfire2/database';
+
 
 @IonicPage()
 
@@ -8,32 +14,108 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'chat.html',
 })
 
-
 export class ChatPage {
+  nombreUser:string;
+  perfilUser:string;
+
+  mostrarSpinner:boolean;
 
   private nombreSala:string;
   private MAX_MENSAJE:number;
+  private tecla:any;
+  private mensaje:string;
+  private mensajes:any[];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+
+
+
+  constructor(public navCtrl: NavController, public navParams: NavParams,
+              public alertCtrl:AlertController, private servicio:UsuarioServiceProvider
+
+  ) {}
+
+  ionViewWillEnter(){
+    this.mostrarSpinner = true;
+  }
+
+  ionViewDidEnter(){
+   this.mostrarSpinner = false;
   }
 
   ionViewDidLoad() {
+
     this.nombreSala = this.navParams.get('sala');
+    this.nombreUser = this.navParams.get('nombre');
+    this.perfilUser = this.navParams.get('perfil');
+
     this.MAX_MENSAJE = 66;
+    this.mensaje = "";
+
+   this.servicio.getMensajesLista(this.nombreSala).subscribe(mensajes=>this.mensajes=mensajes, err=>console.log(err));
+
   }
 
-  private changeMsj(tecla:KeyboardEvent):void{
-    //console.log(tecla.charCode);
-   /* if (this.MAX_MENSAJE == 0) {
-        //tecla.preventDefault();
+  changeMsj(keypress:KeyboardEvent):void{
+    //console.log(keypress.charCode);
+    //console.log('evento keypress: ', keypress);
+    if (this.MAX_MENSAJE == 0) {
+      //keypress.preventDefault();
+      keypress.stopPropagation();
+    }
+  }
+
+  evKeyDown(keydown:KeyboardEvent):void{
+   if (keydown.repeat) {
+     //evitar que mantenga apretada una misma tecla
+     //keydown.preventDefault();
+     keydown.stopPropagation();
+   }
+  }
+
+  backspace(keyup:KeyboardEvent){
+    //console.log('evento keyup: ', keyup);
+    //console.log('code: ', keyup.code);
+    if (keyup.keyCode == 8) {
+      //presiono tecla backspace
+      if (this.MAX_MENSAJE <= 65) {
+        this.MAX_MENSAJE += 1;
+      }else{
+        if (this.MAX_MENSAJE == 0) {
+          //keyup.preventDefault();
+          keyup.stopPropagation();
+        }
+      }
+    } else{
+      if (this.MAX_MENSAJE > 0 && this.MAX_MENSAJE <= 66 ) {
+          this.MAX_MENSAJE -= 1;
+      }
+    }
+  }
+
+  guardarMSJ(){
+    if (this.mensaje == "") {
+      let msjAlert = this.alertCtrl.create({
+        title: '¡Mensaje vacío!',
+        subTitle: 'No se puede enviar mensajes sin contenido',
+        buttons: ['Aceptar']
+      });
+      msjAlert.present();
+    } else {
+      let mensaje = new Mensaje();
+          mensaje.setAula(this.nombreSala);
+          mensaje.setNombre(this.nombreUser);
+          mensaje.setMensaje(this.mensaje);
+
+      this.servicio.guardarMensaje(mensaje);
+
     }
 
-    if (tecla.charCode == 08) {
-        this.MAX_MENSAJE += 1;
-    }else{
-        this.MAX_MENSAJE -= 1;
-    }*/
+  }
 
+
+  private limpiarMSJ():void{
+    this.mensaje = "";
+    this.MAX_MENSAJE = 66;
   }
 
   private volver():void{

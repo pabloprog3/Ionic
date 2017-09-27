@@ -11,6 +11,9 @@ import { LoginServiceProvider } from '../providers/login-service/login-service';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule }  from 'angularfire2/auth';
+import { VotoServiceProvider } from '../providers/voto-service/voto-service';
+
+import { ComponentsModule } from "../components/components.module";
 
 
 
@@ -34,7 +37,8 @@ export const  configFirebase = {
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(configFirebase),
     AngularFireAuthModule,
-    AngularFireDatabaseModule
+    AngularFireDatabaseModule,
+    ComponentsModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -45,7 +49,8 @@ export const  configFirebase = {
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    LoginServiceProvider
+    LoginServiceProvider,
+    VotoServiceProvider
   ]
 })
 export class AppModule {}

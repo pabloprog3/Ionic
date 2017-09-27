@@ -25,8 +25,14 @@
 <br><br>
 
 <button color="secondary" ion-button (click)="votar()" full round>
-  Registrar Voto
+  Registrar Voto<br><ion-icon name="thumbs-up"></ion-icon>
 </button>
+<br>
+<button *ngIf="perfil=='admin'" color="toolbar1" ion-button (click)="mostrarResultados()" full round>
+  <ion-icon name="podium"></ion-icon> Ver Resultados
+</button>
+
+<resultados *ngIf="mostrarGrafico"></resultados>
 
 </ion-content>
 

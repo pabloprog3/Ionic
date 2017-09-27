@@ -1,7 +1,7 @@
 <ion-header>
   <ion-navbar color="toolbar1">
     <ion-title text-center color="primary">
-      <ion-label >LOGIN</ion-label>
+      <ion-label>Bienvenido al Chat!</ion-label>
     </ion-title>
   </ion-navbar>
 </ion-header>
@@ -9,7 +9,7 @@
   <ion-list inset>
     <ion-item color="primary">
       <ion-label color="dark">Seleccionar Usuario</ion-label>
-      <ion-select color="primary" (ionChange)="writePassw()"  [(ngModel)]="nombre" cancelText="Cancelar" okText="Elegir" interface="alert">
+      <ion-select color="primary" (ionChange)="writePassw()"  [(ngModel)]="correo" cancelText="Cancelar" okText="Elegir" interface="alert">
         <ion-option value="admin@admin.com">Admin</ion-option>
         <ion-option value="invitado@invitado.com">Invitado</ion-option>
         <ion-option value="usuario@usuario.com">Usuario</ion-option>
@@ -22,7 +22,7 @@
 
     <ion-item color="primary2">
       <ion-label floating>Correo</ion-label>
-      <ion-input color="input1" type="text" [(ngModel)]="nombre" text-capitalize></ion-input>
+      <ion-input color="input1" type="text" [(ngModel)]="correo" text-capitalize></ion-input>
     </ion-item>
 
     <ion-item color="primary2">

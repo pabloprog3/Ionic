@@ -77,15 +77,12 @@ export class HomePage {
       });
       msjAlert.present();
     }else{
-      this.navCtrl.push('VotoPage', this.loginUser.getNombre());
+      this.navCtrl.push('VotoPage', {'nombre':this.loginUser.getNombre(), 'perfil':this.loginUser.getPerfil()});
     }
 
   }
 
 
-  private votar():void{
-
-  }
 
 
   private salir():void{

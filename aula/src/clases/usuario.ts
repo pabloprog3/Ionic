@@ -47,9 +47,7 @@ export class Usuario{
     }
 
     public setNombre(nombre:string){
-        if (nombre != "") {
-            this.nombre = nombre;
-        }
+      this.nombre = nombre;
     }
 
     public setClave(clave:number){

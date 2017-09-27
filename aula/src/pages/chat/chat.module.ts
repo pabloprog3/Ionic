@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { ChatPage } from './chat';
 
@@ -9,5 +9,6 @@ import { ChatPage } from './chat';
   imports: [
     IonicPageModule.forChild(ChatPage),
   ],
+  schemas: [NO_ERRORS_SCHEMA]
 })
 export class ChatPageModule {}

@@ -2,7 +2,7 @@
 <ion-header>
 
   <ion-navbar color="toolbar1">
-    <ion-title color="primary">Sala: {{nombreSala}}</ion-title>
+    <ion-title color="primary">AULA: {{nombreSala}}</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -10,13 +10,26 @@
 
 <ion-content padding style="background-color:rgba(91, 192, 247, 0.86)">
 
+    <ion-spinner *ngIf="mostrarSpinner" name="bubbles"></ion-spinner>
+
+    <ion-grid fixed>
+        <ion-row justify-content-around  style="background-color:rgba(255, 232, 28, 0.8)"  *ngFor="let msj of mensajes">
+            <ion-col style="background-color:rgba(214, 35, 35, 0.67);color:#A4CAD6" col-3>{{msj.nombre}} <br><small>{{msj.fecha}}</small></ion-col>
+            <ion-col col-9><label>{{msj.mensaje}}</label></ion-col>
+        </ion-row>
+    </ion-grid>
+
     <ion-item>
-        <ion-textarea (keypress)="changeMsj($event)" placeholder="Escriba su mensaje aquí"></ion-textarea>
+        <ion-textarea [(ngModel)]="mensaje" (keydown)="evKeyDown($event)" (keyup)="backspace($event)" (keypress)="changeMsj($event)" placeholder="Escriba su mensaje aquí"></ion-textarea>
     </ion-item>
     <ion-badge color="secondary">{{MAX_MENSAJE}}</ion-badge>
 
-    <button ion-button color="dark" round>
+    <button ion-button color="dark" (click)="guardarMSJ()" round>
       Enviar
+    </button>
+
+    <button ion-button round (click)="limpiarMSJ()">
+      Limpiar
     </button>
 
 </ion-content>

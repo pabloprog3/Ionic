@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, Platform, AlertController } from 'ionic-angular';
+import { NavController, Platform, AlertController, LoadingController } from 'ionic-angular';
 import { Login } from '../../clases/login';
 import { Usuario } from '../../clases/usuario';
 import { Firebase } from '@ionic-native/firebase';
@@ -15,7 +15,8 @@ import { LoginServiceProvider } from '../../providers/login-service/login-servic
 })
 export class HomePage {
 
-  private loginUsuario: Login;
+  private loginUsuario: Usuario;
+  private correo:string
   private nombre: string;
   private passw: any;
   private errCred: boolean;
@@ -24,7 +25,8 @@ export class HomePage {
   private usuarios: any[];
 
   constructor(public navCtrl: NavController, public platform:Platform,
-    public alertCtrl: AlertController, public auth:LoginServiceProvider
+    public alertCtrl: AlertController, public auth:LoginServiceProvider,
+    public loadingCtrl: LoadingController
 
   ) {
 
@@ -35,43 +37,53 @@ export class HomePage {
     this.passw = null;
     this.errCred = false;
     this.passw = null;
+    this.correo = "";
 
     this.auth.getPerfilLogin().subscribe(usuarios=>this.usuarios = usuarios);
-    this.loginUsuario = new Login();
+    this.loginUsuario = new Usuario();
    }
 
    login():void{
-    this.loginUsuario.setNombre(this.nombre);
+    this.loginUsuario.setCorreo(this.correo);
     this.loginUsuario.setClave(this.passw);
 
-    this.auth.loginUser(this.loginUsuario.getNombre(), this.loginUsuario.getClave().toString());
+    try {
+      this.auth.loginUser(this.loginUsuario.getCorreo(), this.loginUsuario.getClave().toString());
 
-    this.usuarios.forEach(usuario => {
-      if (usuario['correo'] == this.loginUsuario.getNombre()) {
-        this.loginUsuario.setPerfil(usuario['perfil']);
-      }
-    });
-    if(this.loginUsuario.getPerfil() == ""){
+          this.usuarios.forEach(usuario => {
+            if (usuario['correo'] == this.loginUsuario.getCorreo()) {
+              this.loginUsuario.setPerfil(usuario['perfil']);
+              this.loginUsuario.setNombre(usuario['nombre']);
+            }
+          });
+
+          if (this.loginUsuario.getPerfil() == "" || this.loginUsuario.getPerfil() == undefined) {
+            return;
+          }
+
+         if(this.loginUsuario.getPerfil() == "admin"){
+              this.navCtrl.push('AdminPage',{ "nombre":this.loginUsuario.getNombre(), "perfil":this.loginUsuario.getPerfil()});
+          }else{
+            this.navCtrl.push('UsuarioPage', { "nombre":this.loginUsuario.getNombre(), "perfil":this.loginUsuario.getPerfil()});
+          }
+    } catch (error) {
       let msjAlert = this.alertCtrl.create({
         title: '¡Usuario inválido!',
         subTitle: 'Los datos ingresados no corresponden a un usuario registrado',
         buttons: ['Aceptar']
       });
-      msjAlert.present();
-    }else if(this.loginUsuario.getPerfil() == "admin"){
-        this.navCtrl.push('AdminPage');
-    }else{
-      this.navCtrl.push('UsuarioPage', this.loginUsuario);
     }
+
+
 
   }
 
   private writePassw():void{
-    if(this.nombre == ""){
+    if(this.correo == ""){
       this.mostrarCardRegistro = true;
       this.passw = "";
     }
-    switch (this.nombre) {
+    switch (this.correo) {
       case "admin@admin.com":
         this.passw = 111111;
         this.errCred = false;

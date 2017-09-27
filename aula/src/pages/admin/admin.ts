@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, Platform, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Platform, AlertController, LoadingController } from 'ionic-angular';
 
 import { LoginServiceProvider } from '../../providers/login-service/login-service';
+
+import { Login } from '../../clases/login';
 
 
 
@@ -24,16 +26,21 @@ export class AdminPage {
   private msjChat:string;
   private msjLista:string;
 
-  private rSala:string
+  private rSala:string;
+  private login:any;
 
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
-              private servicio:LoginServiceProvider, public alertCtrl:AlertController
+              private servicio:LoginServiceProvider, public alertCtrl:AlertController,
+              public loadingCtrl:LoadingController
 
   ) {}
 
   ionViewDidLoad() {
-    this.rSala = 'a';
+
+    this.rSala = 'PPS-4A';
+    this.login = this.navParams.data;
+
     this.enableUsuario = false;
     this.enableChat = false;
     this.enableLista = false;
@@ -91,7 +98,11 @@ export class AdminPage {
 
   private entrarChat():void{
     if(this.rSala == "PPS-4A" || this.rSala == "PPS-4B"){
-        this.navCtrl.push('ChatPage', {'sala': this.rSala});
+        this.navCtrl.push('ChatPage', {'sala':this.rSala,
+                                       'nombre':this.login.nombre,
+                                       'perfil':this.login.perfil
+                                      }
+        );
     }else{
       let alert = this.alertCtrl.create({
         subTitle: 'Seleccione una sala',

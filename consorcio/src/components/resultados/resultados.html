@@ -1,0 +1,22 @@
+
+<ion-card text-center >
+  <ion-card-header color="primary">
+    Resultados de la votacion
+  </ion-card-header>
+  <ion-card-content>
+    <div style="display: block">
+        <canvas baseChart width="400" height="400"
+                [datasets]="barChartData"
+                [labels]="barChartLabels"
+                [options]="barChartOptions"
+                [legend]="barChartLegend"
+                [chartType]="barChartType"
+                (chartHover)="chartHovered($event)"
+                (chartClick)="chartClicked($event)">
+        </canvas>
+    </div>
+
+  </ion-card-content>
+</ion-card>
+
+
