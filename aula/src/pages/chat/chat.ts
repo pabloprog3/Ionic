@@ -60,7 +60,7 @@ export class ChatPage {
     //console.log('evento keypress: ', keypress);
     if (this.MAX_MENSAJE == 0) {
       //keypress.preventDefault();
-      keypress.stopPropagation();
+      keypress.preventDefault();
     }
   }
 
@@ -68,7 +68,7 @@ export class ChatPage {
    if (keydown.repeat) {
      //evitar que mantenga apretada una misma tecla
      //keydown.preventDefault();
-     keydown.stopPropagation();
+     keydown.preventDefault();
    }
   }
 
@@ -82,7 +82,7 @@ export class ChatPage {
       }else{
         if (this.MAX_MENSAJE == 0) {
           //keyup.preventDefault();
-          keyup.stopPropagation();
+          keyup.preventDefault();
         }
       }
     } else{
@@ -107,6 +107,7 @@ export class ChatPage {
           mensaje.setMensaje(this.mensaje);
 
       this.servicio.guardarMensaje(mensaje);
+      this.mensaje = "";
 
     }
 

@@ -5,6 +5,7 @@ export class Usuario{
       private clave:number;
       private perfil:string;
       private sexo:string;
+      private correo:string;
 
       constructor(){
           this.id = null;
@@ -12,6 +13,7 @@ export class Usuario{
           this.clave = null;
           this.perfil = "";
           this.sexo = "";
+          this.correo = "";
       }
 
       public getId():number{
@@ -34,6 +36,10 @@ export class Usuario{
           return this.sexo;
       }
 
+      public getCorreo():string{
+        return this.correo;
+      }
+
       public setId(id:number){
           if (id != undefined && id != null) {
               this.id = id;
@@ -41,9 +47,7 @@ export class Usuario{
       }
 
       public setNombre(nombre:string){
-          if (nombre != "" && nombre != undefined) {
-              this.nombre = nombre;
-          }
+        this.nombre = nombre;
       }
 
       public setClave(clave:number){
@@ -53,16 +57,22 @@ export class Usuario{
       }
 
       public setPerfil(perfil:string){
-          if (perfil != "" && perfil != undefined) {
+          if (perfil != "") {
               this.perfil = perfil;
           }
       }
 
       public setSexo(sexo:string){
-          if (sexo != "" && sexo != undefined) {
+          if (sexo != "") {
               this.sexo = sexo;
           }
       }
+
+      public setCorreo(correo:string){
+        if (correo != "") {
+            this.correo = correo;
+        }
+    }
 
 
 

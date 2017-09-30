@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {AlertController, NavController, Platform} from 'ionic-angular';
+import {AlertController, NavController, Platform, LoadingController} from 'ionic-angular';
 
 import { UsuarioServiceProvider } from '../../providers/usuario-service/usuario-service';
 import {Usuario} from '../../clases/usuario';
@@ -27,7 +27,7 @@ export class InicioSesionComponent {
 
 
   constructor(public alertCtrl:AlertController, private servicio:UsuarioServiceProvider,
-              public navCtrl:NavController
+              public navCtrl:NavController, public loadingCtrl:LoadingController
 
   ) {}
 
@@ -67,8 +67,26 @@ export class InicioSesionComponent {
   }
 
   private registrarseFirebase():void{
-    this.configAlertas();
+
     if (this.usuario != null && this.usuario != undefined) {
+      this.configAlertas();
+      const loading = this.loadingCtrl.create({
+        content: 'Procesando envío de datos',
+        dismissOnPageChange: true,
+        duration: 4000
+      });
+            loading.onDidDismiss(()=>{
+              let alert = this.alertCtrl.create({
+                subTitle: '¡Registro Correcto!',
+                buttons: [
+                  {
+                    text: 'Confirmar'
+                  }
+                ]
+              });
+              alert.present();
+            });
+      loading.present();
       this.usuario.setClave(this.passw1);
       this.usuario.setNombre(this.nombre);
       this.usuario.setCorreo(this.correo);
@@ -76,8 +94,12 @@ export class InicioSesionComponent {
       this.usuario.setSexo(this.rSexo);
       //console.log('usuario: ', this.usuario);
       this.servicio.guardarUsuario(this.usuario);
+
+      this.cancelarRegistro();
+      this.navCtrl.popToRoot();
+    } else {
       let alert = this.alertCtrl.create({
-        subTitle: '¡Registro Correcto!',
+        subTitle: '¡Error de usuario!',
         buttons: [
           {
             text: 'Confirmar'
@@ -85,11 +107,6 @@ export class InicioSesionComponent {
         ]
       });
       alert.present();
-
-      this.cancelarRegistro();
-      this.navCtrl.popToRoot();
-    } else {
-      console.log('error usuario');
     }
 
   }

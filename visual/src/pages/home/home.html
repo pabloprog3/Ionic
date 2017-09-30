@@ -1,48 +1,45 @@
 <ion-header>
-  <ion-navbar>
-    <ion-title>
+  <ion-navbar color="dark">
+    <ion-title text-center>
       Relevamiento Visual
     </ion-title>
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content padding style="background-color:rgba(224, 103, 4, 0.8)">
 
-  <ion-list radio-group [(ngModel)]="nombre" (ionChange)="writePassw()">
-    <ion-list-header>
-      USUARIO
-    </ion-list-header>
+  <ion-list  radio-group [(ngModel)]="correo" (ionChange)="writePassw()">
 
-    <ion-item>
-      <ion-label>Admin</ion-label>
-      <ion-radio checked="true" value="admin"></ion-radio>
+    <ion-item color="warning3">
+      <ion-label color="dark">Admin</ion-label>
+      <ion-radio checked="true" value="admin@admin.com"></ion-radio>
     </ion-item>
 
-    <ion-item>
-      <ion-label>Invitado</ion-label>
-      <ion-radio value="invitado"></ion-radio>
+    <ion-item color="warning3">
+      <ion-label color="dark">Invitado</ion-label>
+      <ion-radio value="invitado@invitado.com"></ion-radio>
     </ion-item>
 
-    <ion-item>
-      <ion-label>Usuario</ion-label>
-      <ion-radio value="usuario"></ion-radio>
+    <ion-item color="warning3">
+      <ion-label color="dark">Usuario</ion-label>
+      <ion-radio value="usuario@usuario.com"></ion-radio>
     </ion-item>
 
-    <ion-item>
-      <ion-label>Jugador 1</ion-label>
-      <ion-radio value="j1"></ion-radio>
+    <ion-item color="warning3">
+      <ion-label color="dark">Jugador 1</ion-label>
+      <ion-radio value="jugador1@jugador.com"></ion-radio>
     </ion-item>
 
-    <ion-item>
-      <ion-label>Jugador 2</ion-label>
-      <ion-radio value="j2"></ion-radio>
+    <ion-item color="warning3">
+      <ion-label color="dark">Jugador 2</ion-label>
+      <ion-radio value="jugador2@jugador.com"></ion-radio>
     </ion-item>
 
   </ion-list>
 
   <br>
 
-  <ion-item>
+  <ion-item color="warning3">
     <ion-input type="password" placeholder="Password" [(ngModel)]="passw"></ion-input>
   </ion-item>
 
@@ -53,7 +50,7 @@
     <ion-icon name="arrow-dropright"></ion-icon>
   </button>
 
-  <button ion-button round outline (click)="salir()">
+  <button ion-button round outline color="light" (click)="salir()">
     Salir
   </button>
 

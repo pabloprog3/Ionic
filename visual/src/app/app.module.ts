@@ -12,6 +12,7 @@ import { LoginServiceProvider } from '../providers/login-service/login-service';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule }  from 'angularfire2/auth';
+import { ImagenServiceProvider } from '../providers/imagen-service/imagen-service';
 
 
 export const  configFirebase = {
@@ -45,7 +46,8 @@ export const  configFirebase = {
     SplashScreen,
     Camera,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    LoginServiceProvider
+    LoginServiceProvider,
+    ImagenServiceProvider
   ]
 })
 export class AppModule {}

@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { NavController, Platform, AlertController, LoadingController } from 'ionic-angular';
+import { NavController, Platform, AlertController, LoadingController} from 'ionic-angular';
 import { Login } from '../../clases/login';
 import { Usuario } from '../../clases/usuario';
+import { SplashScreen } from "@ionic-native/splash-screen";
 import { Firebase } from '@ionic-native/firebase';
 
 import { InicioSesionComponent } from '../../components/inicio-sesion/inicio-sesion';
@@ -25,11 +26,20 @@ export class HomePage {
   private usuarios: any[];
 
   constructor(public navCtrl: NavController, public platform:Platform,
-    public alertCtrl: AlertController, public auth:LoginServiceProvider,
-    public loadingCtrl: LoadingController
+    public alertCtrl: AlertController, private auth:LoginServiceProvider,
+    public loadingCtrl: LoadingController, public splash:SplashScreen
 
   ) {
 
+   }
+
+
+   ionViewWillEnter(){
+    if (this.platform.ready()) {
+      this.splash.hide();
+    }else{
+      this.splash.show();
+    }
    }
 
    ionViewDidLoad(){
@@ -44,6 +54,11 @@ export class HomePage {
    }
 
    login():void{
+    const loading = this.loadingCtrl.create({
+      content: 'Verificando datos. Espere...',
+      dismissOnPageChange: true
+    });
+    loading.present();
     this.loginUsuario.setCorreo(this.correo);
     this.loginUsuario.setClave(this.passw);
 
@@ -72,10 +87,8 @@ export class HomePage {
         subTitle: 'Los datos ingresados no corresponden a un usuario registrado',
         buttons: ['Aceptar']
       });
+      msjAlert.present();
     }
-
-
-
   }
 
   private writePassw():void{
