@@ -9,5 +9,8 @@ import { UsuarioPage } from './usuario';
   imports: [
     IonicPageModule.forChild(UsuarioPage),
   ],
+  exports:[
+    UsuarioPage
+  ]
 })
 export class UsuarioPageModule {}

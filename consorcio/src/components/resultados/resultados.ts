@@ -17,13 +17,8 @@ export class ResultadosComponent implements OnChanges {
   private contMatafuegos:number=0;
   private contPlantas:number=0;
 
-
   constructor(private servicio:VotoServiceProvider) {
     this.barChartData=new Array();
-    this.barChartData = [
-      {data: 0, label: 'Matafuegos'},
-      {data: 0, label: 'Plantas'}
-    ];
   }
 
   ngOnChanges(){
@@ -40,6 +35,7 @@ export class ResultadosComponent implements OnChanges {
       votos=>{
               this.contMatafuegos=0;
               this.contPlantas=0;
+
               this.llenarData(votos);
       },
 
@@ -51,7 +47,6 @@ export class ResultadosComponent implements OnChanges {
 
 
   private llenarData(votos:Voto[]){
-
     votos.forEach(votos => {
       if (votos['voto']=="matafuegos") {
         this.contMatafuegos+=1;
@@ -63,31 +58,30 @@ export class ResultadosComponent implements OnChanges {
       {data: [this.contMatafuegos], label: 'Matafuegos'},
       {data: [this.contPlantas], label: 'Plantas'}
     ];
-
   }
 
-  public barChartData:any[];
+    public barChartData:any[];
 
 
-  public barChartOptions:any = {
-    scaleShowVerticalLines: false,
-    responsive: true
-  };
-  public barChartLabels:string[] = ['2017'];
-  public barChartType:string = 'bar';
-  public barChartLegend:boolean = true;
+    public barChartOptions:any = {
+      scaleShowVerticalLines: false,
+      responsive: true
+    };
+    public barChartLabels:string[] = ['2017'];
+    public barChartType:string = 'bar';
+    public barChartLegend:boolean = true;
 
 
 
 
-  // events
-  public chartClicked(e:any):void {
-    console.log(e);
-  }
+    // events
+    public chartClicked(e:any):void {
+      console.log(e);
+    }
 
-  public chartHovered(e:any):void {
-    console.log(e);
-  }
+    public chartHovered(e:any):void {
+      console.log(e);
+    }
 
 
 

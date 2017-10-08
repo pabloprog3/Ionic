@@ -15,35 +15,36 @@ import { FirebaseListObservable } from 'angularfire2/database';
 })
 
 export class ChatPage {
-  nombreUser:string;
-  perfilUser:string;
+  nombreUser: string;
+  perfilUser: string;
 
-  mostrarSpinner:boolean;
+  mostrarSpinner: boolean;
 
-  private nombreSala:string;
-  private MAX_MENSAJE:number;
-  private tecla:any;
-  private mensaje:string;
-  private mensajes:any[];
-
-
+  private nombreSala: string;
+  private MAX_MENSAJE: number;
+  private tecla: any;
+  private mensaje: string;
+  private mensajes: any[];
+  private maxCero:boolean
 
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
-              public alertCtrl:AlertController, private servicio:UsuarioServiceProvider
+    public alertCtrl: AlertController, private servicio: UsuarioServiceProvider
 
-  ) {}
+  ) {
 
-  ionViewWillEnter(){
+    }
+
+  ionViewWillEnter() {
     this.mostrarSpinner = true;
   }
 
-  ionViewDidEnter(){
-   this.mostrarSpinner = false;
+  ionViewDidEnter() {
+    this.mostrarSpinner = false;
+    this.maxCero = false;
   }
 
   ionViewDidLoad() {
-
     this.nombreSala = this.navParams.get('sala');
     this.nombreUser = this.navParams.get('nombre');
     this.perfilUser = this.navParams.get('perfil');
@@ -51,48 +52,52 @@ export class ChatPage {
     this.MAX_MENSAJE = 66;
     this.mensaje = "";
 
-   this.servicio.getMensajesLista(this.nombreSala).subscribe(mensajes=>this.mensajes=mensajes, err=>console.log(err));
+    this.servicio.getMensajesLista(this.nombreSala).subscribe(mensajes=>this.mensajes=mensajes, err=>console.log(err));
+  }
+
+  verificarMaxCero():void{
 
   }
 
-  changeMsj(keypress:KeyboardEvent):void{
+  changeMsj(keypress: KeyboardEvent): void {
     //console.log(keypress.charCode);
     //console.log('evento keypress: ', keypress);
     if (this.MAX_MENSAJE == 0) {
+      this.maxCero = true;
       //keypress.preventDefault();
       keypress.preventDefault();
     }
   }
 
-  evKeyDown(keydown:KeyboardEvent):void{
-   if (keydown.repeat) {
-     //evitar que mantenga apretada una misma tecla
-     //keydown.preventDefault();
-     keydown.preventDefault();
-   }
+  evKeyDown(keydown: KeyboardEvent): void {
+    if (keydown.repeat) {
+      //evitar que mantenga apretada una misma tecla
+      //keydown.preventDefault();
+      keydown.preventDefault();
+    }
   }
 
-  backspace(keyup:KeyboardEvent){
+  backspace(keyup: KeyboardEvent) {
     //console.log('evento keyup: ', keyup);
     //console.log('code: ', keyup.code);
     if (keyup.keyCode == 8) {
       //presiono tecla backspace
       if (this.MAX_MENSAJE <= 65) {
         this.MAX_MENSAJE += 1;
-      }else{
+      } else {
         if (this.MAX_MENSAJE == 0) {
           //keyup.preventDefault();
           keyup.preventDefault();
         }
       }
-    } else{
-      if (this.MAX_MENSAJE > 0 && this.MAX_MENSAJE <= 66 ) {
-          this.MAX_MENSAJE -= 1;
+    } else {
+      if (this.MAX_MENSAJE > 0 && this.MAX_MENSAJE <= 66) {
+        this.MAX_MENSAJE -= 1;
       }
     }
   }
 
-  guardarMSJ(){
+  guardarMSJ() {
     if (this.mensaje == "") {
       let msjAlert = this.alertCtrl.create({
         title: '¡Mensaje vacío!',
@@ -102,25 +107,26 @@ export class ChatPage {
       msjAlert.present();
     } else {
       let mensaje = new Mensaje();
-          mensaje.setAula(this.nombreSala);
-          mensaje.setNombre(this.nombreUser);
-          mensaje.setMensaje(this.mensaje);
+      mensaje.setAula(this.nombreSala);
+      mensaje.setNombre(this.nombreUser);
+      mensaje.setMensaje(this.mensaje);
 
       this.servicio.guardarMensaje(mensaje);
       this.mensaje = "";
+      this.MAX_MENSAJE = 66;
 
     }
 
   }
 
 
-  private limpiarMSJ():void{
+  private limpiarMSJ(): void {
     this.mensaje = "";
     this.MAX_MENSAJE = 66;
   }
 
-  private volver():void{
-    if(this.navCtrl.canGoBack()){
+  private volver(): void {
+    if (this.navCtrl.canGoBack()) {
       this.navCtrl.popTo('HomePage');
     }
   }

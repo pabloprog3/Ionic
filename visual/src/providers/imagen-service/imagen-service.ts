@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import {AngularFireDatabase, FirebaseListObservable} from 'angularfire2/database';
 import { Observable } from 'rxjs/observable';
 import { Imagen } from '../../clases/imagen'
+import { Usuario } from '../../clases/usuario';
 import  "firebase/storage";
 import * as firebase from "firebase/app";
 
@@ -10,34 +11,32 @@ import * as firebase from "firebase/app";
 @Injectable()
 export class ImagenServiceProvider {
 
-  private fotos:FirebaseListObservable<Imagen[]>;
+  private fotos:FirebaseListObservable<any[]>;
+  private storageRef: any;
+  private usuarios:FirebaseListObservable<Usuario[]>;
 
   constructor(private db:AngularFireDatabase) {
-
+    this.storageRef = firebase.storage().ref().child('imagenes');
   }
 
-  getListaFotos(){
-    //this.fotos = this.db.list('gs://aula-e6937.appspot.com/imagenes') as FirebaseListObservable<Imagen[]>;
-    //return this.fotos;
+  getUsuariosLista(){
+    this.usuarios = this.db.list('/usuarios') as FirebaseListObservable<Usuario[]>;
+    return this.usuarios;
+  }
+
+  guardarLinkFoto(nombre:string, path:string, uid:string){
+    let foto = new Imagen();
+    foto.setNombre(nombre);
+    foto.setFoto(path);
+    this.db.database.ref('/fotos/'+uid+'/').push(foto);
+  }
+
+  getListaFotos(nombre:string){
+    this.fotos = this.db.list('fotos/'+nombre) as FirebaseListObservable<any[]>;
+    return this.fotos;
   }
 
 
-  subirImagenFirebase(imagen:Imagen){
-    //obtener referencia
-    let storage = firebase.storage().ref('gs://aula-e6937.appspot.com/').child('imagenes/' + imagen.getNombre());
 
-    //guardar archivo
-    storage.putString(imagen.getFoto()).then(function (snapshot) {
-
-    });
-
-
-
-
-    //let storage=firebase.storage().ref('imagenes/');
-    //let upload = storage.put(imagen);
-    //storage.putString(imagen.getFoto(), 'data_url');
-    //this.fotos.push(imagen);
-  }
 
 }

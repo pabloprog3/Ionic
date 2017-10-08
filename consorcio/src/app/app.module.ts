@@ -16,7 +16,6 @@ import { VotoServiceProvider } from '../providers/voto-service/voto-service';
 import { ComponentsModule } from "../components/components.module";
 
 
-
 export const  configFirebase = {
   apiKey: "AIzaSyAdXMV2gkladQLgTcKgNjuAgfDT1ok5Ijs",
   authDomain: "aula-e6937.firebaseapp.com",

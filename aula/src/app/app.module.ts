@@ -17,6 +17,10 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule }  from 'angularfire2/auth';
 import { UsuarioServiceProvider } from '../providers/usuario-service/usuario-service';
 
+import { TabshomePageModule } from "../pages/tabshome/tabshome.module";
+import { ChataulasPage } from "../pages/chataulas/chataulas";
+import { ListauserPage } from "../pages/listauser/listauser";
+import { RegistrouserPage } from "../pages/registrouser/registrouser";
 
 export const  configFirebase = {
   apiKey: "AIzaSyAdXMV2gkladQLgTcKgNjuAgfDT1ok5Ijs",
@@ -31,7 +35,9 @@ export const  configFirebase = {
 @NgModule({
   declarations: [
     MyApp,
-    HomePage
+    HomePage,
+
+
   ],
   imports: [
     BrowserModule,
@@ -39,12 +45,14 @@ export const  configFirebase = {
     ComponentsModule,
     AngularFireModule.initializeApp(configFirebase),
     AngularFireDatabaseModule,
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    TabshomePageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    HomePage
+    HomePage,
+
   ],
   providers: [
     StatusBar,

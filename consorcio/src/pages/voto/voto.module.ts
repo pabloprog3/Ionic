@@ -13,6 +13,9 @@ import {ComponentsModule} from '../../components/components.module';
     IonicPageModule.forChild(VotoPage),
     ComponentsModule
   ],
+  exports:[
+    VotoPage
+  ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
 })
 export class VotoPageModule {}

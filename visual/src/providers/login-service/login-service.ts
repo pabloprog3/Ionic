@@ -14,6 +14,7 @@ export class LoginServiceProvider {
 
   private mail:string="";
   private lista:FirebaseListObservable<any[]>;
+  private usuarios:FirebaseListObservable<Usuario[]>;
   private usuario:Usuario;
 
   loginUser(correo:string, clave:string){
@@ -33,6 +34,10 @@ export class LoginServiceProvider {
     }) as FirebaseListObservable<any[]>;
     return this.lista;
     //console.log(this.lista.$ref.orderByChild('/usuarios'));
+  }
+
+  public getAuthUID(){
+    return this.auth.auth.currentUser.uid;
   }
 
   public logOut(){

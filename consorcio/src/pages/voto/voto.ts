@@ -28,7 +28,6 @@ export class VotoPage {
     this.boolVoto=false;
     this.mostrarGrafico = false;
     //console.log('ionViewDidLoad VotoPage');
-    this.perfil = this.navParams.get('perfil');
     //console.log(this.perfil);
     this.voto = "";
     this.votos = this.servicio.getVotosLista().subscribe(
@@ -103,3 +102,4 @@ export class VotoPage {
   }
 
 }
+

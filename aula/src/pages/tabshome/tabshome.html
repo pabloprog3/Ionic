@@ -1,0 +1,11 @@
+
+
+<ion-content>
+    <ion-tabs color="secondary">
+        <ion-tab (click)="tabChat($event)"  [root]="chataulasRoot" tabTitle="Chatear" tabIcon="chatbubbles"></ion-tab>
+        <ion-tab (click)="tabLista()"  [root]="listauserRoot" tabTitle="Listar usuarios" tabIcon="list-box"></ion-tab>
+        <ion-tab (click)="tabRegistro()"  [root]="registrouserRoot" tabTitle="Registrar usuario" tabIcon="person-add"></ion-tab>
+    </ion-tabs>
+</ion-content>
+
+<ion-nav [root]="TabshomePage"></ion-nav>

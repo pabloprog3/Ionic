@@ -1,49 +1,45 @@
-
-  <ion-header>
-    <ion-navbar color="dark">
-      <ion-title  text-center text-uppercase>
-        <ion-label color = "danger">Administrador</ion-label>
-      </ion-title>
-    </ion-navbar>
-  </ion-header>
+<ion-header>
+  <ion-navbar color="dark">
+    <ion-title  text-center text-uppercase>
+      <ion-label color = "danger">Administrador</ion-label>
+    </ion-title>
+  </ion-navbar>
+</ion-header>
 
 <ion-content padding style="background-color:rgba(91, 192, 247, 0.86)">
 
-  <button [disabled]="enableBtnUsuario" ion-button color="warning" block round (click)="enableNuevoUsuario()">{{msjNuevoUsuario}}</button>
-  <inicio-sesion *ngIf="enableUsuario"></inicio-sesion>
+<button [disabled]="enableBtnUsuario" ion-button color="warning" block round (click)="enableNuevoUsuario()">{{msjNuevoUsuario}}</button>
+<inicio-sesion *ngIf="enableUsuario"></inicio-sesion>
 
-  <button [disabled]="enableBtnChat" (click)="elegirChat()" ion-button block round>{{msjChat}}</button>
-  <ion-list radio-group *ngIf="enableChat" [(ngModel)]="rSala" >
-    <ion-list-header color="dark2">
-      <ion-label>Aulas disponibles</ion-label>
-    </ion-list-header>
+<button [disabled]="enableBtnChat" (click)="elegirChat()" ion-button block round>{{msjChat}}</button>
+<ion-list radio-group *ngIf="enableChat" [(ngModel)]="rSala" >
+  <ion-list-header color="dark2">
+    <ion-label>Aulas disponibles</ion-label>
+  </ion-list-header>
 
-    <ion-item color="primary2">
-      <ion-label color="danger">PPS-4A</ion-label>
-      <ion-radio checked="true" value="PPS-4A"></ion-radio>
-    </ion-item>
+  <ion-item color="primary2">
+    <ion-label color="danger">PPS-4A</ion-label>
+    <ion-radio checked="true" value="PPS-4A"></ion-radio>
+  </ion-item>
 
-    <ion-item color="primary2">
-      <ion-label color="danger">PPS-4B</ion-label>
-      <ion-radio value="PPS-4B"></ion-radio>
-    </ion-item>
+  <ion-item color="primary2">
+    <ion-label color="danger">PPS-4B</ion-label>
+    <ion-radio value="PPS-4B"></ion-radio>
+  </ion-item>
 
-    <button ion-button color="danger" full round (click)="entrarChat()">
-      Entrar
-  </button>
+  <button ion-button color="danger" full round (click)="entrarChat()">
+    Entrar
+</button>
 </ion-list>
 
 
-  <button [disabled]="enableBtnLista" (click)="elegirLista()" ion-button block color="dark" round>{{msjLista}}</button>
-  <lista-usuarios *ngIf="enableLista"></lista-usuarios>
+<button [disabled]="enableBtnLista" (click)="elegirLista()" ion-button block color="dark" round>{{msjLista}}</button>
+<lista-usuarios *ngIf="enableLista"></lista-usuarios>
 </ion-content>
 
 <ion-footer>
-    <ion-toolbar color="primary">
-      <ion-title text-center (click)="deslogear()"><ion-label >Deslogear</ion-label></ion-title>
-    </ion-toolbar>
+  <ion-toolbar color="primary">
+    <ion-title text-center (click)="deslogear()"><ion-label >Deslogear</ion-label></ion-title>
+  </ion-toolbar>
 </ion-footer>
-
-
-
 

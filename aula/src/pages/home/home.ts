@@ -2,12 +2,14 @@ import { Component } from '@angular/core';
 import { NavController, Platform, AlertController, LoadingController} from 'ionic-angular';
 import { Login } from '../../clases/login';
 import { Usuario } from '../../clases/usuario';
-import { SplashScreen } from "@ionic-native/splash-screen";
+
 import { Firebase } from '@ionic-native/firebase';
 
 import { InicioSesionComponent } from '../../components/inicio-sesion/inicio-sesion';
 
 import { LoginServiceProvider } from '../../providers/login-service/login-service';
+import { UsuarioServiceProvider } from '../../providers/usuario-service/usuario-service';
+
 
 
 @Component({
@@ -24,10 +26,11 @@ export class HomePage {
   private registrar: boolean = false;
   private mostrarCardRegistro: boolean = true;
   private usuarios: any[];
+  private listaUsuarios:any = [];
 
   constructor(public navCtrl: NavController, public platform:Platform,
     public alertCtrl: AlertController, private auth:LoginServiceProvider,
-    public loadingCtrl: LoadingController, public splash:SplashScreen
+    public loadingCtrl: LoadingController, private servicioDB: UsuarioServiceProvider
 
   ) {
 
@@ -35,11 +38,7 @@ export class HomePage {
 
 
    ionViewWillEnter(){
-    if (this.platform.ready()) {
-      this.splash.hide();
-    }else{
-      this.splash.show();
-    }
+
    }
 
    ionViewDidLoad(){
@@ -48,10 +47,10 @@ export class HomePage {
     this.errCred = false;
     this.passw = null;
     this.correo = "";
-
-    this.auth.getPerfilLogin().subscribe(usuarios=>this.usuarios = usuarios);
     this.loginUsuario = new Usuario();
    }
+
+
 
    login():void{
     const loading = this.loadingCtrl.create({
@@ -62,34 +61,32 @@ export class HomePage {
     this.loginUsuario.setCorreo(this.correo);
     this.loginUsuario.setClave(this.passw);
 
-    try {
-      this.auth.loginUser(this.loginUsuario.getCorreo(), this.loginUsuario.getClave().toString());
-
-          this.usuarios.forEach(usuario => {
+    this.auth.loginUser(this.loginUsuario.getCorreo(), this.loginUsuario.getClave().toString())
+      .then(user=>{
+        //autenticado
+        this.listaUsuarios = this.servicioDB.getUsuariosLista();
+        this.listaUsuarios.subscribe(lista=>{
+          lista.forEach(usuario => {
             if (usuario['correo'] == this.loginUsuario.getCorreo()) {
-              this.loginUsuario.setPerfil(usuario['perfil']);
-              this.loginUsuario.setNombre(usuario['nombre']);
+                this.loginUsuario.setPerfil(usuario['perfil']);
+                this.loginUsuario.setNombre(usuario['nombre']);
+                if (this.loginUsuario.getPerfil() == 'admin') {
+                  this.navCtrl.push('AdminPage', {'nombre':this.loginUsuario.getNombre(), 'perfil':this.loginUsuario.getPerfil()});
+                }else{
+                  this.navCtrl.push('UsuarioPage', {'nombre':this.loginUsuario.getNombre(), 'perfil':this.loginUsuario.getPerfil()});
+                }
             }
           });
-
-          if (this.loginUsuario.getPerfil() == "" || this.loginUsuario.getPerfil() == undefined) {
-            return;
-          }
-
-         if(this.loginUsuario.getPerfil() == "admin"){
-              this.navCtrl.push('AdminPage',{ "nombre":this.loginUsuario.getNombre(), "perfil":this.loginUsuario.getPerfil()});
-          }else{
-            this.navCtrl.push('UsuarioPage', { "nombre":this.loginUsuario.getNombre(), "perfil":this.loginUsuario.getPerfil()});
-          }
-    } catch (error) {
-      let msjAlert = this.alertCtrl.create({
-        title: '¡Usuario inválido!',
-        subTitle: 'Los datos ingresados no corresponden a un usuario registrado',
-        buttons: ['Aceptar']
-      });
-      msjAlert.present();
+        });
+      })
+      .catch(err=>{
+        let msjAlert = this.alertCtrl.create({
+          subTitle: 'Error al validar usuario. Verifique sus datos',
+          buttons: ['Volver']
+        });
+      })
     }
-  }
+
 
   private writePassw():void{
     if(this.correo == ""){
@@ -153,7 +150,6 @@ export class HomePage {
   }
 
   private validarCantDigitos(event:Event):void{
-
     let clave:Number = this.passw;
     if (clave.toString().length > 6) {
       let msjAlert = this.alertCtrl.create({

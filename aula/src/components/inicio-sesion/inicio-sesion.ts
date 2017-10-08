@@ -3,7 +3,7 @@ import {AlertController, NavController, Platform, LoadingController} from 'ionic
 
 import { UsuarioServiceProvider } from '../../providers/usuario-service/usuario-service';
 import {Usuario} from '../../clases/usuario';
-
+import {Login} from '../../clases/login';
 
 @Component({
   selector: 'inicio-sesion',
@@ -23,6 +23,7 @@ export class InicioSesionComponent {
   private rSexo: string = "";
   private rPerfil: string = "";
   private enableConfirmUser: boolean = true;
+  private login:Login;
   private usuario:Usuario;
 
 
@@ -32,43 +33,124 @@ export class InicioSesionComponent {
   ) {}
 
   ngOnInit(){
+    this.login = new Login();
     this.usuario = new Usuario();
   }
 
+  validarSeisDigitos(){
+    if (this.passw1.length < 6) {
+      let msjAlert = this.alertCtrl.create({
+        title: '¡Digitos insuficientes!',
+        subTitle: 'La password debe tener mínimo entre 6 y 10 dígitos',
+        buttons: ['Aceptar']
+      });
+
+      msjAlert.present();
+      return false;
+    }else{
+      return true;
+    }
+  }
+
+  escribirCorreo(){
+    if (this.nombre != "" && this.correo != ""  && this.passw1 != "" && this.passw2 != "") {
+        this.enableConfirmUser = false;
+    }else{
+      this.enableConfirmUser = true;
+    }
+}
+
+  escribirNombre(){
+      if (this.correo != "" && this.nombre != "" && this.passw1 != "" && this.passw2 != "") {
+        this.enableConfirmUser = false;
+
+      }else{
+        this.enableConfirmUser = true;
+      }
+  }
+
+  private validarNum(tecla:KeyboardEvent):void{
+    if (tecla.charCode >= 48 && tecla.charCode <= 57) {
+      return;
+    }else{
+      tecla.preventDefault();
+      let msjAlert = this.alertCtrl.create({
+        title: '¡Carácter inválido!',
+        subTitle: 'La password debe ser numérica y tener hasta 6 dígitos',
+        buttons: ['Aceptar']
+      });
+
+      msjAlert.present();
+    }
+  }
+
+  private validarCantDigitos(event:Event):void{
+
+    let clave:Number = this.passw1;
+
+    if (clave.toString().length > 10) {
+      let msjAlert = this.alertCtrl.create({
+        title: '¡Alcanzó el Maximo!',
+        subTitle: 'Ingrese una clave de no más de 10 dígitos',
+        buttons: ['Aceptar']
+      });
+      msjAlert.present();
+      this.passw1 = "";
+    }
+  }
+
   private confirmPassw():void{
-      if (this.passw1 != null && this.passw1 != "") {
+      if (this.passw1 != "") {
         this.enPassw = false;
       } else {
         this.enPassw = true;
         if (this.passw1 == "") {
-          this.passw2 = null;
+          this.enableConfirmUser = true;
+          this.passw2 = "";
         }
 
       }
   }
 
   private textoInf():void{
+    if (this.passw2.length < 6) {
+      this.enableConfirmUser = true;
+    }
+
     if(this.passw1 != "" && this.passw2 != ""){
       this.mostrarTextoInf = true;
       if(this.passw1 != this.passw2){
         this.OkError="danger";
         this.textoOkError="Las claves no coinciden";
         this.iconOkErr = "close";
+        this.enableConfirmUser = true;
       }else{
         this.OkError="secondary";
         this.textoOkError="Las claves coinciden";
         this.iconOkErr = "checkmark";
         this.enableConfirmUser = false;
+        if (this.nombre=="" || this.correo=="") {
+          this.enableConfirmUser = true;
+          let alert = this.alertCtrl.create({
+            title: '¡Faltan Datos!',
+            buttons: [
+              {
+                text: 'Confirmar',
+              }]
+        });
+        alert.present();
       }
-    }else{
-      this.mostrarTextoInf = false;
-    }
+      else{
+        this.mostrarTextoInf = false;
+      }
 
+    }
   }
+}
 
   private registrarseFirebase():void{
 
-    if (this.usuario != null && this.usuario != undefined) {
+    if (this.login != null && this.login != undefined) {
       this.configAlertas();
       const loading = this.loadingCtrl.create({
         content: 'Procesando envío de datos',
@@ -87,13 +169,15 @@ export class InicioSesionComponent {
               alert.present();
             });
       loading.present();
-      this.usuario.setClave(this.passw1);
-      this.usuario.setNombre(this.nombre);
+      this.login.setNombre(this.nombre);
+      this.login.setPerfil(this.rPerfil);
+      this.login.setSexo(this.rSexo);
+      this.login.setCorreo(this.correo);
+
       this.usuario.setCorreo(this.correo);
-      this.usuario.setPerfil(this.rPerfil);
-      this.usuario.setSexo(this.rSexo);
+      this.usuario.setClave(this.passw1);
       //console.log('usuario: ', this.usuario);
-      this.servicio.guardarUsuario(this.usuario);
+      this.servicio.guardarUsuario(this.login, this.usuario);
 
       this.cancelarRegistro();
       this.navCtrl.popToRoot();
@@ -120,28 +204,6 @@ export class InicioSesionComponent {
   }
 
   private configAlertas():void{
-    if (this.nombre == "") {
-      let alert = this.alertCtrl.create({
-        title: '¡Faltan Datos!',
-        inputs: [
-          {
-            name: 'nombre',
-            placeholder: 'Nombre de usuario'
-          }
-        ],
-        buttons: [
-          {
-            text: 'Confirmar',
-            handler: data =>{
-              if (data != "") {
-                this.nombre = data['nombre'];
-              }
-            }
-          }
-        ]
-      }); //fin config alerta
-      alert.present();
-    }
 
     if (this.rPerfil == "") {
       let alert = this.alertCtrl.create({
@@ -215,29 +277,6 @@ export class InicioSesionComponent {
           }
         ]
 
-      });
-      alert.present();
-    }
-
-    if (this.correo == "") {
-      let alert = this.alertCtrl.create({
-        title: '¡Faltan Datos!',
-        inputs: [
-          {
-            name: 'correo',
-            placeholder: 'Correo'
-          }
-        ],
-        buttons: [
-          {
-            text: 'Confirmar',
-            handler: data =>{
-              if (data != "") {
-                this.correo = data['correo'];
-              }
-            }
-          }
-        ]
       });
       alert.present();
     }

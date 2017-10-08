@@ -2,10 +2,12 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 
 import { Camera, CameraOptions } from '@ionic-native/camera';
-import { Imagen } from '../../clases/imagen'
-import { ImagenServiceProvider } from '../../providers/imagen-service/imagen-service';
 
+import { ImagenServiceProvider } from "../../providers/imagen-service/imagen-service";
+import {AngularFireDatabase} from 'angularfire2/database';
+import {storage, initializeApp}  from 'firebase';
 import * as firebase from 'firebase';
+import { configFirebase } from "../../app/firebaseConfig";
 import 'whatwg-fetch';
 
 @IonicPage()
@@ -15,96 +17,71 @@ import 'whatwg-fetch';
 })
 
 export class AdminPage {
-  private options: CameraOptions = {
-    quality: 100,
-    destinationType: this.camera.DestinationType.DATA_URL,
-    encodingType: this.camera.EncodingType.JPEG,
-    mediaType: this.camera.MediaType.PICTURE,
-    correctOrientation: true
-  };
 
-  private imagen: Imagen;
-  private imagenes: Imagen[];
+ private imagen:any;
+ private nombreUser:string;
+ private userUID:string;
+ private storageRef = firebase.storage().ref();
+ private fotos: any[];
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
-    public camera: Camera, public alertCtrl: AlertController,
-    private servicio: ImagenServiceProvider
-  ) { }
+    public camera: Camera, public alertCtrl: AlertController, private servicioDB:ImagenServiceProvider,
+    private db:AngularFireDatabase
+  ) {
 
-  private  configFirebase = {
-    apiKey: "AIzaSyAdXMV2gkladQLgTcKgNjuAgfDT1ok5Ijs",
-    authDomain: "aula-e6937.firebaseapp.com",
-    databaseURL: "https://aula-e6937.firebaseio.com",
-    projectId: "aula-e6937",
-    storageBucket: "aula-e6937.appspot.com",
-    messagingSenderId: "433695017385"
-  };
+    }
 
 
   ionViewDidLoad() {
-    this.imagen = new Imagen();
-    this.imagen.setNombre(this.navParams.get('nombre'));
-    firebase.initializeApp(this.configFirebase);
-    //this.servicio.getListaFotos().subscribe(
-    //  fotos=>this.imagenes=fotos
-    //);
+    this.nombreUser = this.navParams.get('nombre');
+    this.userUID = this.navParams.get('uid');
   }
 
-  private fileImagen(imagen){
-    return fetch(imagen).then((_response)=>{
-      return _response.blob();
-    }).then((_blob) => {
-      return _blob;
-    })
-  }
+  async encenderCamara(){
+    try {
+      let options: CameraOptions = {
+        quality: 100,
+        destinationType: this.camera.DestinationType.DATA_URL,
+        encodingType: this.camera.EncodingType.JPEG,
+        mediaType: this.camera.MediaType.PICTURE,
+        targetHeight: 600,
+        targetWidth: 600,
+        correctOrientation: true,
+        saveToPhotoAlbum: true
+      };
 
-  private uploadFirebase(imagen){
-    var fileName = this.imagen.getNombre() + '.jpg';
+      this.camera.getPicture(options).then((_imagen)=>{
+        let fecha:number = new Date().getTime();
+        //const path:string = 'gs://aula-e6937.appspot.com/imagenes/'+this.nombreUser+'/'+fecha+'.jpg';
+        let imagenData = 'data:image/jpeg;base64,' + _imagen;
+        this.imagen = imagenData;
+        let upload = this.storageRef.child('imagenes/'+ this.nombreUser+ '/'+fecha+'.jpg').putString(_imagen,'base64');
 
-    return new Promise((resolve, reject) => {
-          var fileRef = firebase.storage().ref('imagenes/' + fileName);
-          var uploadTask = fileRef.put(imagen);
-    });
-  }
+        upload.then((snapshot)=>{
+          this.servicioDB.guardarLinkFoto(this.nombreUser, snapshot.downloadURL, this.userUID);
+          let msjOK = this.alertCtrl.create({
+            subTitle: 'Imagen almacenada exitosamente en Firebase!!!',
+            buttons: ['Aceptar']
+           });
+           msjOK.present();
+        });
 
-  private encenderCamara(): void {
-
-    this.camera.getPicture({
-      destinationType: this.camera.DestinationType.FILE_URI,
-      sourceType: this.camera.PictureSourceType.CAMERA,
-      targetHeight: 640,
-      correctOrientation: true
-    }).then((image) => {
-            return this.fileImagen(image);
-          }).then((_imageBlob) => {
-                  this.uploadFirebase(_imageBlob);
-              })
-
-
-    /*this.camera.getPicture(this.options).then((imageData) => {
-      let foto = 'data:image/jpeg;base64,' + imageData;
-      this.imagen.setFoto(foto);
-
-      this.servicio.subirImagenFirebase(this.imagen);
-      let msjAlert = this.alertCtrl.create({
-          subTitle: "Imagen subida exitosamente",
-          buttons: ['Aceptar']
       });
-      msjAlert.present();
-    },
-      (err)=> {
-                let msjAlert = this.alertCtrl.create({
-                    subTitle: "Error al subir imagen: " + err,
-                    buttons: ['Aceptar']
-                 });
-                msjAlert.present();
-      }
-    );*/
+
+    } catch (error) {
+
+     let msjERR = this.alertCtrl.create({
+      subTitle: 'Error al subir la imagen.Vuelva a intentarlo',
+      buttons: ['Volver']
+     });
+     msjERR.present();
+    }
+
   }
 
 
   listarFotos() {
-
+    this.navCtrl.push('ListadoPage', {'nombre':this.nombreUser, 'uid':this.userUID});
   }
 
 

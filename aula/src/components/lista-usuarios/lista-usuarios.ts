@@ -1,23 +1,27 @@
 import { Component, OnInit } from '@angular/core';
 
-import { LoginServiceProvider } from '../../providers/login-service/login-service';
+import { UsuarioServiceProvider } from '../../providers/usuario-service/usuario-service';
 import { Usuario } from '../../clases/usuario';
 
 @Component({
   selector: 'lista-usuarios',
   templateUrl: 'lista-usuarios.html'
 })
-export class ListaUsuariosComponent {
+export class ListaUsuariosComponent{
   private lista: Usuario[];
 
-  constructor(private servicio:LoginServiceProvider
+  constructor(private servicio:UsuarioServiceProvider
 
   ) {}
 
   ngOnInit() { this.getUsuarios(); }
 
+  ngOnDestroy(){
+
+  }
+
   getUsuarios(){
-    this.servicio.getPerfilLogin().subscribe(usuarios=>this.lista=usuarios, err=>console.log(err));
+    this.servicio.getUsuariosLista().subscribe(usuarios=>this.lista=usuarios, err=>console.log(err));
   }
 
 

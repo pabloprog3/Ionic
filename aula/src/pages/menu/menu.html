@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-navbar color="dark">
+    <ion-title text-center><ion-label color="danger">Menú Administrador</ion-label></ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+<ion-menu [content]="navADM">
+  <ion-content>
+    <ion-list>
+      <button ion-item (click)="openPage(homePage)">
+        Nuevo usuario
+      </button>
+      <button ion-item (click)="openPage(friendsPage)">
+        Chat
+      </button>
+      <button ion-item (click)="openPage(eventsPage)">
+        Listado de usuarios
+      </button>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+</ion-content>
+<ion-nav #navADM [root]="TabsPage"></ion-nav>

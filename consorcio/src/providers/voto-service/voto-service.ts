@@ -20,7 +20,7 @@ export class VotoServiceProvider {
   }
 
   guardarVoto(voto:Voto):void{
-    if (voto != null) {
+    if (voto != null && voto != undefined) {
       this.votos.push(voto);
     }else{
       return;

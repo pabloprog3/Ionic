@@ -1,20 +1,20 @@
 
 <ion-header>
   <ion-navbar color="dark">
-    <ion-title color="danger" text-center>Administrador</ion-title>
+    <ion-title color="danger" text-center>Relevamiento visual</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding style="background-color:rgba(76, 161, 131, 0.88)">
+<ion-content padding style="background-color:rgb(24, 109, 78)">
 
-  <button ion-button full round (click)="encenderCamara()">
-    Cámara
+  <button class="boton" ion-button full round (click)="encenderCamara()">
+    <ion-label color="toolbar1">Tomar foto</ion-label>
   </button>
   <br>
-  <button color="dark" ion-button full round (click)="listarFotos()">
-    Mostrar listado de fotos
+  <button class="boton" color="dark" ion-button full round (click)="listarFotos()">
+    <ion-label color="warning">Listado de fotos</ion-label>
   </button>
 
 </ion-content>

@@ -4,6 +4,7 @@ import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/databa
 import { AngularFireAuth } from 'angularfire2/auth';
 
 import { Usuario } from '../../clases/usuario';
+import { Login }from '../../clases/login';
 import { Mensaje } from '../../clases/mensaje';
 
 @Injectable()
@@ -21,12 +22,14 @@ export class UsuarioServiceProvider {
     return this.usuarios;
   }
 
+
   getUserUID(){
     return this.auth.auth.currentUser.uid;
   }
 
-  guardarUsuario(usuario:Usuario){
-    this.usuarios.push(usuario)
+  guardarUsuario(loginDB:Login, usuario:Usuario){
+    this.auth.auth.createUserWithEmailAndPassword(usuario.getCorreo(), usuario.getClave().toString());
+    this.usuarios.push(loginDB);
   }
 
   getMensajesLista(aula:string){

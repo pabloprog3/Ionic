@@ -5,6 +5,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { Login } from '../../clases/login';
 import { Usuario } from '../../clases/usuario';
 
+
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -13,90 +14,103 @@ export class HomePage {
 
   private correo: string;
   private passw: number;
-  private loginUser: Usuario;
+  private loginUsuario: Usuario;
   private errCred: boolean;
-  private usuarios:any;
-  private usuario:Login;
+  private usuarios: any;
+  private usuario: Login;
+  private listaUsuarios: any = [];
+  private nombre: string;
 
   constructor(public navCtrl: NavController, public platform: Platform,
-              private auth:LoginServiceProvider, public alertCtrl:AlertController,
-              public loadingCtrl:LoadingController, public splash:SplashScreen
+    private auth: LoginServiceProvider, public alertCtrl: AlertController,
+    public loadingCtrl: LoadingController
 
-  ) {}
+  ) { }
 
-  private loginAdmin():void{
-      this.correo = 'admin@admin.com';
-      this.passw = 111111;
+  private loginAdmin(): void {
+    this.correo = 'admin@admin.com';
+    this.passw = 111111;
   }
 
-  private loginUsuarioo():void{
+  private loginUsuarioo(): void {
     this.correo = 'usuario@usuario.com';
     this.passw = 333333;
   }
 
-  private loginInvitado():void{
+  private loginInvitado(): void {
     this.correo = 'invitado@invitado.com';
     this.passw = 222222;
   }
 
-  private loginJ1():void{
+  private loginJ1(): void {
     this.correo = 'jugador1@jugador.com';
     this.passw = 444444;
   }
 
-  private loginJ2():void{
+  private loginJ2(): void {
     this.correo = 'jugador2@jugador.com';
     this.passw = 555555;
   }
 
-  ionViewDidLoad(){
+  ionViewDidLoad() {
     this.correo = "";
     this.passw = null;
     this.errCred = false;
     this.passw = null;
 
-    this.auth.getPerfilLogin().subscribe(usuarios=>this.usuarios = usuarios);
-    this.loginUser = new Usuario();
-   }
+    // this.auth.getPerfilLogin().subscribe(usuarios=>this.usuarios = usuarios);
+    this.loginUsuario = new Usuario();
+  }
 
-   login():void{
+   login(){
+    this.loginUsuario.setCorreo(this.correo);
+    this.loginUsuario.setClave(this.passw);
+
     const loading = this.loadingCtrl.create({
       content: 'Verificando datos. Espere...',
       dismissOnPageChange: true
     });
     loading.present();
-    this.loginUser.setCorreo(this.correo);
-    this.loginUser.setClave(this.passw);
 
-    this.auth.loginUser(this.loginUser.getCorreo(), this.loginUser.getClave().toString());
-    if(this.loginUser.getCorreo() == 'admin@admin.com')
-      this.navCtrl.push('AdminPage', {'nombre':this.loginUser.getCorreo(), 'perfil':this.loginUser.getPerfil()});
-    else
-    this.navCtrl.push('VotoPage', {'nombre':this.loginUser.getCorreo(), 'perfil':this.loginUser.getPerfil()});
-   /* this.usuarios.forEach(usuario => {
-      if (usuario['correo'] == this.loginUser.getCorreo()) {
-        this.loginUser.setPerfil(usuario['perfil']);
-        this.loginUser.setNombre(usuario['nombre']);
+    setTimeout(() => {
+      loading.dismiss();
+    }, 10000);
 
-      }else{
-        this.loginUser.setPerfil("");
-      }
-    });*/
+    try {
+      this.auth.loginUser(this.loginUsuario.getCorreo(), this.loginUsuario.getClave().toString())
+        .then(() => {
+          this.auth.getUsuariosLista().subscribe(lista=>{
+            lista.forEach(usuario => {
+              if (usuario['correo'] == this.loginUsuario.getCorreo()) {
+                  this.loginUsuario.setPerfil(usuario['perfil']);
+                  this.loginUsuario.setNombre(usuario['nombre']);
+                  if (this.loginUsuario.getPerfil() == 'admin') {
+                    this.navCtrl.push('VotoPage', {'nombre':this.loginUsuario.getNombre(), 'perfil':this.loginUsuario.getPerfil()});
+                  }else{
+                    this.navCtrl.push('VotoPage', {'nombre':this.loginUsuario.getNombre(), 'perfil':this.loginUsuario.getPerfil()});
+                  }
+              }
+            });
+          });
 
-    /*if(this.loginUser.getPerfil() == ""){
+          if (this.loginUsuario.getPerfil() == "" || this.loginUsuario.getPerfil() == undefined) {
+            return;
+          }
+
+        })
+      } catch (error) {
       let msjAlert = this.alertCtrl.create({
         title: '¡Usuario inválido!',
         subTitle: 'Los datos ingresados no corresponden a un usuario registrado',
         buttons: ['Aceptar']
       });
-      msjAlert.present();
-  }*/
-}
+    }
 
 
+  }
 
 
-  private salir():void{
+  private salir(): void {
     this.platform.exitApp();
   }
 

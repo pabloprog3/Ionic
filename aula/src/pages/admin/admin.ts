@@ -114,8 +114,22 @@ export class AdminPage {
   }
 
   deslogear(){
-    this.servicio.logOut();
-    this.navCtrl.goToRoot({});
+    if (this.navCtrl.canGoBack()) {
+      this.navCtrl.popTo('HomePage').then(()=>{
+        this.servicio.logOut();
+          let msjAlert = this.alertCtrl.create({
+            subTitle: "Deslogeo correcto",
+            buttons: ['Confirmar']
+          });
+          msjAlert.present();
+        }).catch(err=>{
+          let msjAlert = this.alertCtrl.create({
+            subTitle: "Error al deslogear",
+            buttons: ['Volver']
+          });
+          msjAlert.present();
+        })
+    }
   }
 
 

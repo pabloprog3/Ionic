@@ -1,12 +1,12 @@
 
   <ion-item color="warning2">
-    <ion-input color="dark"  type="text" placeholder="nombre" [(ngModel)]="nombre" text-capitalize></ion-input>
+    <ion-input (ionChange)="escribirNombre()" color="dark"  type="text" placeholder="nombre" [(ngModel)]="nombre" text-capitalize></ion-input>
   </ion-item>
 
   <br>
 
   <ion-item color="warning2">
-    <ion-input color="dark"  type="text" placeholder="Correo" [(ngModel)]="correo"></ion-input>
+    <ion-input (ionChange)="escribirCorreo()" color="dark"  type="text" placeholder="Correo" [(ngModel)]="correo"></ion-input>
   </ion-item>
 
   <br>
@@ -53,7 +53,7 @@
   <br>
 
   <ion-item color="warning2">
-    <ion-input  (ionChange)="confirmPassw()" type="password" placeholder="Clave" [(ngModel)]="passw1"></ion-input>
+    <ion-input (ionBlur)="validarSeisDigitos()" (keypress)="validarNum($event)" (ionChange)="validarCantDigitos($event)"  (ionChange)="confirmPassw()" type="password" placeholder="Clave" [(ngModel)]="passw1"></ion-input>
   </ion-item>
 
   <ion-item  color="warning2" >

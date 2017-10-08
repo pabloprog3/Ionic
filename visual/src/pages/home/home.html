@@ -1,37 +1,37 @@
 <ion-header>
   <ion-navbar color="dark">
     <ion-title text-center>
-      Relevamiento Visual
+      <ion-label color="secondary">Relevamiento Visual</ion-label>
     </ion-title>
   </ion-navbar>
 </ion-header>
 
-<ion-content padding style="background-color:rgba(224, 103, 4, 0.8)">
+<ion-content padding style="background-color:rgba(243, 101, 0, 0.8)">
 
   <ion-list  radio-group [(ngModel)]="correo" (ionChange)="writePassw()">
 
-    <ion-item color="warning3">
+    <ion-item style="background-color:rgba(197, 104, 32, 0.64)">
       <ion-label color="dark">Admin</ion-label>
       <ion-radio checked="true" value="admin@admin.com"></ion-radio>
     </ion-item>
 
-    <ion-item color="warning3">
+    <ion-item style="background-color:rgba(197, 104, 32, 0.64)">
       <ion-label color="dark">Invitado</ion-label>
       <ion-radio value="invitado@invitado.com"></ion-radio>
     </ion-item>
 
-    <ion-item color="warning3">
+    <ion-item style="background-color:rgba(197, 104, 32, 0.64)">
       <ion-label color="dark">Usuario</ion-label>
       <ion-radio value="usuario@usuario.com"></ion-radio>
     </ion-item>
 
-    <ion-item color="warning3">
-      <ion-label color="dark">Jugador 1</ion-label>
+    <ion-item style="background-color:rgba(197, 104, 32, 0.64)">
+      <ion-label color="dark">j1</ion-label>
       <ion-radio value="jugador1@jugador.com"></ion-radio>
     </ion-item>
 
-    <ion-item color="warning3">
-      <ion-label color="dark">Jugador 2</ion-label>
+    <ion-item style="background-color:rgba(197, 104, 32, 0.64)">
+      <ion-label color="dark">j2</ion-label>
       <ion-radio value="jugador2@jugador.com"></ion-radio>
     </ion-item>
 

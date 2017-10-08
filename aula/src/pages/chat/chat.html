@@ -1,41 +1,57 @@
-
 <ion-header>
 
-  <ion-navbar color="toolbar1">
-    <ion-title color="primary">AULA: {{nombreSala}}</ion-title>
-  </ion-navbar>
+    <ion-navbar color="toolbar1">
+      <ion-title color="primary">AULA: {{nombreSala}}</ion-title>
+    </ion-navbar>
 
-</ion-header>
+  </ion-header>
 
 
-<ion-content padding style="background-color:rgba(91, 192, 247, 0.86)">
+  <ion-content padding style="background-color:rgba(91, 192, 247, 0.86)">
 
-    <ion-spinner *ngIf="mostrarSpinner" name="bubbles"></ion-spinner>
+      <ion-spinner *ngIf="mostrarSpinner" name="bubbles"></ion-spinner>
 
-    <ion-grid fixed>
-        <ion-row justify-content-around  style="background-color:rgba(255, 232, 28, 0.8)"  *ngFor="let msj of mensajes">
-            <ion-col style="background-color:rgba(214, 35, 35, 0.67);color:#A4CAD6" col-3>{{msj.nombre}} <br><small>{{msj.fecha}}</small></ion-col>
-            <ion-col col-9><label>{{msj.mensaje}}</label></ion-col>
-        </ion-row>
-    </ion-grid>
+      <ion-grid fixed>
+          <ion-row justify-content-around  style="background-color:rgba(218, 192, 24, 0.08)"  *ngFor="let msj of mensajes">
+              <ion-col style="background-color:rgba(214, 35, 35, 0.67);color:#A4CAD6" col-3>{{msj.nombre}} <br><small>{{msj.fecha}}</small></ion-col>
+              <ion-col col-9>
+                <div *ngIf="msj.nombre==nombreUser; else noUser">
+                  <h5 text-right class="textUser">
+                    {{msj.mensaje}}
+                  </h5>
+              </div>
+              <ng-template text-left #noUser>
+                 <h5 class="textNoUser"> {{msj.mensaje}} </h5>
+              </ng-template>
+              </ion-col>
 
-    <ion-item>
-        <ion-textarea [(ngModel)]="mensaje" (keydown)="evKeyDown($event)" (keyup)="backspace($event)" (keypress)="changeMsj($event)" placeholder="Escriba su mensaje aquí"></ion-textarea>
-    </ion-item>
-    <ion-badge color="secondary">{{MAX_MENSAJE}}</ion-badge>
+          </ion-row>
+      </ion-grid>
 
-    <button ion-button color="dark" (click)="guardarMSJ()" round>
-      Enviar
-    </button>
 
-    <button ion-button round (click)="limpiarMSJ()">
-      Limpiar
-    </button>
+      <ion-footer>
+        <ion-toolbar color="primary">
+          <ion-item>
+            <ion-textarea (ionChange)="verificarMaxCero()" [disabled]="maxCero" [(ngModel)]="mensaje" (keydown)="evKeyDown($event)" (keyup)="backspace($event)" (keypress)="changeMsj($event)" placeholder="Escriba su mensaje aquí"></ion-textarea>
+        </ion-item>
+        <ion-badge color="secondary">{{MAX_MENSAJE}}</ion-badge>
 
-</ion-content>
+        <button ion-button color="dark" (click)="guardarMSJ()" round>
+          Enviar
+        </button>
 
-<ion-footer>
-  <ion-toolbar color="primary">
-    <ion-title text-center (click)="volver()"><ion-label >Volver</ion-label></ion-title>
-  </ion-toolbar>
-</ion-footer>
+        <button ion-button round (click)="limpiarMSJ()">
+          Limpiar
+        </button>
+
+        </ion-toolbar>
+      </ion-footer>
+
+  </ion-content>
+<!--
+  <ion-footer>
+    <ion-toolbar color="primary">
+      <ion-title text-right (click)="volver()"><ion-label >Volver</ion-label></ion-title>
+    </ion-toolbar>
+  </ion-footer>
+-->

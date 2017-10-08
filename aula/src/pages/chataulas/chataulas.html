@@ -1,0 +1,31 @@
+   <ion-content padding style="background-color:rgba(135, 213, 250, 0.81)">
+
+      <ion-list radio-group [(ngModel)]="rSala">
+          <ion-list-header color="dark2">
+            <ion-label>Aulas disponibles</ion-label>
+          </ion-list-header>
+
+          <ion-item color="primary2">
+            <ion-label color="danger">PPS-4A</ion-label>
+            <ion-radio checked="true" value="PPS-4A"></ion-radio>
+          </ion-item>
+
+          <ion-item color="primary2">
+            <ion-label color="danger">PPS-4B</ion-label>
+            <ion-radio value="PPS-4B"></ion-radio>
+          </ion-item>
+      </ion-list>
+
+      <br><br>
+
+      <button ion-button color="danger" full round (click)="entrarChat()">
+          Entrar
+      </button>
+
+      <ion-footer>
+          <ion-toolbar color="primary">
+            <ion-title text-center (click)="deslogear()"><ion-label>Deslogear</ion-label></ion-title>
+          </ion-toolbar>
+      </ion-footer>
+
+  </ion-content>
