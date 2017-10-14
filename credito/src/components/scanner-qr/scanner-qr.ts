@@ -17,12 +17,12 @@ export class ScannerQrComponent {
   }
 
   ngOnInit(){
-    console.log(this.perfil);
+    //console.log(this.perfil);
   }
 
   iniciarScan(){
     let scanSub = this.qrScanner.scan().subscribe((text: string) => {
-      console.log('Scanned something', text);
+
       this.texto = text;
       //this.qrScanner.hide(); // hide camera preview
       //scanSub.unsubscribe(); // stop scanning
@@ -30,9 +30,6 @@ export class ScannerQrComponent {
     });
 
    let status:any =  this.qrScanner.show();
-    console.log('state', status);
-
-
 
   }
 

@@ -9,20 +9,20 @@ import { Usuario } from '../../clases/usuario';
 export class LoginServiceProvider {
 
   constructor(public db:AngularFireDatabase, private auth:AngularFireAuth) {
-
+    //this.getUsuariosLista();
   }
 
   private mail:string="";
   private lista:FirebaseListObservable<any[]>;
   private usuario:Usuario;
+  private usuarios: FirebaseListObservable<Usuario[]>;
 
   loginUser(correo:string, clave:string){
-    this.usuario = new Usuario();
     return this.auth.auth.signInWithEmailAndPassword(correo, clave)
-      .then(user=>Promise.resolve(this.mail=user.email))
-      .catch(err=>Promise.reject(err))
+      .then(user=>{
 
-      //this.getPerfilLogin();
+      })
+      .catch(err=>Promise.reject(err=>{console.log(err)}))
   }
 
    public getPerfilLogin(){
@@ -34,6 +34,16 @@ export class LoginServiceProvider {
     return this.lista;
     //console.log(this.lista.$ref.orderByChild('/usuarios'));
   }
+
+  getUsuariosLista(){
+    this.usuarios = this.db.list('/usuarios') as FirebaseListObservable<Usuario[]>;
+    return this.usuarios;
+  }
+
+  public getUserUID():string{
+    return this.auth.auth.currentUser.uid;
+  }
+
 
   public logOut(){
     this.auth.auth.signOut();

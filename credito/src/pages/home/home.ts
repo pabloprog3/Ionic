@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
-import { NavController, Platform, AlertController } from 'ionic-angular';
+import { NavController, Platform, AlertController, LoadingController } from 'ionic-angular';
 import { Login } from '../../clases/login';
 import { Usuario } from '../../clases/usuario';
 //import { Firebase } from '@ionic-native/firebase';
 
 import { LoginServiceProvider } from '../../providers/login-service/login-service';
-
+import { FirebaseListObservable } from "angularfire2/database";
+import * as firebase from "firebase";
 
 @Component({
   selector: 'page-home',
@@ -13,92 +14,100 @@ import { LoginServiceProvider } from '../../providers/login-service/login-servic
 })
 export class HomePage {
 
-  private loginUsuario: Login;
-  private nombre: string;
-  private passw: any;
+  private loginUsuario: Usuario;
+  private uid:string;
+  private correo: string;
+  private passw: string;
   private errCred: boolean;
   private registrar: boolean = false;
   private mostrarCardRegistro: boolean = true;
   private usuarios: any[];
+  private listaUsuarios:FirebaseListObservable<Usuario[]>;
 
   constructor(public navCtrl: NavController, public platform:Platform,
-    public alertCtrl: AlertController, public auth:LoginServiceProvider
+    public alertCtrl: AlertController, public auth:LoginServiceProvider,
+    public loadingCtrl:LoadingController
 
   ) {
-
+      this.loginUsuario = new Usuario();
    }
 
    ionViewDidLoad(){
-    this.nombre = "";
+    this.correo = "";
     this.passw = null;
     this.errCred = false;
     this.passw = null;
 
-    this.auth.getPerfilLogin().subscribe(usuarios=>this.usuarios = usuarios);
-    this.loginUsuario = new Login();
+    //this.auth.getPerfilLogin().subscribe(usuarios=>this.usuarios = usuarios);
+
    }
 
-   login():void{
-    this.loginUsuario.setNombre(this.nombre);
-    this.loginUsuario.setClave(this.passw);
+   login(){
 
-    this.auth.loginUser(this.loginUsuario.getNombre(), this.loginUsuario.getClave().toString());
-
-    this.usuarios.forEach(usuario => {
-      if (usuario['correo'] == this.loginUsuario.getNombre()) {
-        this.loginUsuario.setPerfil(usuario['perfil']);
-      }
+    //this.navCtrl.push('ScannerPage');
+    /*
+      const loading = this.loadingCtrl.create({
+      content: 'Verificando datos. Espere...',
+      dismissOnPageChange: true
     });
-    if(this.loginUsuario.getPerfil() == ""){
-      let msjAlert = this.alertCtrl.create({
-        title: '¡Usuario inválido!',
-        subTitle: 'Los datos ingresados no corresponden a un usuario registrado',
-        buttons: ['Aceptar']
-      });
-      msjAlert.present();
-    }else if(this.loginUsuario.getPerfil() == "admin"){
-        this.navCtrl.push('AdminPage');
-    }else{
-      this.navCtrl.push('UsuarioPage');
-    }
+    loading.present();
+
+    setTimeout(() => {
+      loading.dismiss();
+    }, 10000);*/
+
+
+    this.loginUsuario.setCorreo(this.correo);
+    this.loginUsuario.setClave(this.passw);
+    let msj = this.alertCtrl.create({
+      subTitle: 'entrandooo;  ' + this.loginUsuario.getCorreo() + '; ' + this.loginUsuario.getClave(),
+      buttons: ['ok']
+    });
+    msj.present();
+
+      this.auth.loginUser(this.loginUsuario.getCorreo(), this.loginUsuario.getClave())
+        .then(user => {
+           //autenticado
+            this.navCtrl.push('ScannerPage', {'uid':this.auth.getUserUID()});
+        })//termina then
 
   }
 
   private writePassw():void{
-    if(this.nombre == ""){
+    if(this.correo == ""){
       this.mostrarCardRegistro = true;
       this.passw = "";
     }
-    switch (this.nombre) {
+    switch (this.correo) {
       case "admin@admin.com":
-        this.passw = 111111;
+        this.passw = '111111';
         this.errCred = false;
         this.registrar= false;
         this.mostrarCardRegistro = false;
       break;
       case "invitado@invitado.com":
-        this.passw = 222222;
+        this.passw = '222222';
         this.errCred = false;
         this.registrar= false;
         this.mostrarCardRegistro = false;
 
       break;
       case "usuario@usuario.com":
-        this.passw = 333333;
+        this.passw = '333333';
         this.errCred = false;
         this.registrar= false;
         this.mostrarCardRegistro = false;
 
       break;
       case "jugador1@jugador.com":
-        this.passw = 444444;
+        this.passw = '444444';
         this.errCred = false;
         this.registrar= false;
         this.mostrarCardRegistro = false;
 
       break;
       case "jugador2@jugador.com":
-        this.passw = 555555;
+        this.passw = '555555';
         this.errCred = false;
         this.registrar= false;
         this.mostrarCardRegistro = false;
@@ -127,7 +136,7 @@ export class HomePage {
 
   private validarCantDigitos(event:Event):void{
 
-    let clave:Number = this.passw;
+    let clave:string = this.passw;
     if (clave.toString().length > 6) {
       let msjAlert = this.alertCtrl.create({
         title: '¡Alcanzó el Maximo!',

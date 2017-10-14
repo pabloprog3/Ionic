@@ -74,39 +74,12 @@ export class HomePage {
 
     setTimeout(() => {
       loading.dismiss();
-    }, 10000);
+    }, 15000);
 
-    try {
       this.auth.loginUser(this.loginUsuario.getCorreo(), this.loginUsuario.getClave().toString())
         .then(() => {
-          this.auth.getUsuariosLista().subscribe(lista=>{
-            lista.forEach(usuario => {
-              if (usuario['correo'] == this.loginUsuario.getCorreo()) {
-                  this.loginUsuario.setPerfil(usuario['perfil']);
-                  this.loginUsuario.setNombre(usuario['nombre']);
-                  if (this.loginUsuario.getPerfil() == 'admin') {
-                    this.navCtrl.push('VotoPage', {'nombre':this.loginUsuario.getNombre(), 'perfil':this.loginUsuario.getPerfil()});
-                  }else{
-                    this.navCtrl.push('VotoPage', {'nombre':this.loginUsuario.getNombre(), 'perfil':this.loginUsuario.getPerfil()});
-                  }
-              }
-            });
-          });
-
-          if (this.loginUsuario.getPerfil() == "" || this.loginUsuario.getPerfil() == undefined) {
-            return;
-          }
-
+            this.navCtrl.push('VotoPage');
         })
-      } catch (error) {
-      let msjAlert = this.alertCtrl.create({
-        title: '¡Usuario inválido!',
-        subTitle: 'Los datos ingresados no corresponden a un usuario registrado',
-        buttons: ['Aceptar']
-      });
-    }
-
-
   }
 
 

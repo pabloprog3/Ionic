@@ -1,0 +1,19 @@
+page-scanner {
+  .button{
+    height: 100px;
+    font-size: 25px;
+  }
+  .button:active{
+    font-size: 40px;
+    background-color: rgba(54, 4, 136, 0.95);
+  }
+  .button:focus{
+    font-family: fantasy;
+    color: rgba(219, 198, 4, 0.88);
+  }
+
+  .warning{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: rgba(48, 214, 7, 0.65);
+  }
+}

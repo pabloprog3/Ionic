@@ -15,7 +15,8 @@ import { AngularFireDatabaseModule } from "angularfire2/database";
 import { AngularFireAuthModule} from "angularfire2/auth";
 
 import { ComponentsModule } from '../components/components.module';
-
+import { BarcodeScanner } from '@ionic-native/barcode-scanner';
+import { CodeProvider } from '../providers/code/code';
 
 
 export const  configFirebase = {
@@ -52,9 +53,11 @@ export const  configFirebase = {
     StatusBar,
     SplashScreen,
     QRScanner,
+    BarcodeScanner,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     //InicioSesionProvider,
-    LoginServiceProvider
+    LoginServiceProvider,
+    CodeProvider
   ]
 })
 export class AppModule {}
