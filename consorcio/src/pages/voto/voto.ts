@@ -14,28 +14,29 @@ import { Subscription } from 'rxjs/Subscription';
 export class VotoPage {
   private perfil:string;
   private voto:string;
-  private mostrarGrafico:boolean;
   private boolVoto:boolean;
   private votos:Subscription;
+  private nombre:string;
 
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
               private auth:LoginServiceProvider, public alertCtrl:AlertController,
               private servicio:VotoServiceProvider
-  ) {}
+  )
+  {
+
+  }
+
+  ionViewWillEnter(){
+    this.nombre = this.navParams.get('nombre');
+    this.boolVoto = this.servicio.verificarVotos(this.nombre);
+
+
+  }
 
   ionViewDidLoad() {
-    this.boolVoto=false;
-    this.mostrarGrafico = false;
-    //console.log('ionViewDidLoad VotoPage');
-    //console.log(this.perfil);
-    this.voto = "";
-    this.votos = this.servicio.getVotosLista().subscribe(
-      votos=>{
-                this.existeVoto(votos);
-             }
-    )
 
+    this.voto = "";
   }
 
 
@@ -52,21 +53,8 @@ export class VotoPage {
       objVoto.setNombre(this.navParams.get('nombre'));
       objVoto.setVoto(this.voto);
       try {
-
-            if (this.boolVoto) {
-              let msjAlert = this.alertCtrl.create({
-                subTitle: 'Usted ya emitió su voto',
-                buttons: ['Aceptar']
-              });
-              msjAlert.present();
-            } else {
               this.servicio.guardarVoto(objVoto);
-              let msjAlert = this.alertCtrl.create({
-                subTitle: 'Voto registrado correctamente',
-                buttons: ['Aceptar']
-              });
-              msjAlert.present();
-            }
+              this.navCtrl.push('GraficoPage', {'mensaje':'Voto registrado exitosamente'});
 
       } catch (error) {
         let msjAlert = this.alertCtrl.create({
@@ -78,21 +66,9 @@ export class VotoPage {
     }
   }
 
-  private existeVoto(votos:Voto[]):void{
-    votos.forEach(voto => {
-      if (voto['nombre']==this.navParams.get('nombre')) {
-        this.boolVoto=true;
-      }
-    });
-  }
 
   private mostrarResultados():void{
-    if (this.mostrarGrafico) {
-      this.mostrarGrafico = false;
-    } else {
-      this.mostrarGrafico = true;
-    }
-
+    this.navCtrl.push('GraficoPage');
   }
 
 

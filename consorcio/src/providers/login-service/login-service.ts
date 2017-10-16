@@ -20,15 +20,9 @@ export class LoginServiceProvider {
 
   loginUser(correo:string, clave:string){
     return this.auth.auth.signInWithEmailAndPassword(correo, clave).then(user=>{
-      let msj = this.alertCtrl.create({
-        subTitle: 'auth: ' + user
-      });
-      msj.present();
+
     }, err=>{
-      let msj = this.alertCtrl.create({
-        subTitle: 'auth error: ' + err + '; ' + err.message
-      });
-      msj.present();
+        console.log(err.message);
     });
   }
 
@@ -39,7 +33,7 @@ export class LoginServiceProvider {
      }
    }) as FirebaseListObservable<any[]>;
    return this.lista;
-   //console.log(this.lista.$ref.orderByChild('/usuarios'));
+
  }
 
   getUsuariosLista(){

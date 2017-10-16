@@ -4,6 +4,7 @@ import { LoginServiceProvider } from '../../providers/login-service/login-servic
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Login } from '../../clases/login';
 import { Usuario } from '../../clases/usuario';
+import { VotoServiceProvider } from "../../providers/voto-service/voto-service";
 
 
 @Component({
@@ -58,11 +59,10 @@ export class HomePage {
     this.errCred = false;
     this.passw = null;
 
-    // this.auth.getPerfilLogin().subscribe(usuarios=>this.usuarios = usuarios);
     this.loginUsuario = new Usuario();
   }
 
-   login(){
+ login(){
     this.loginUsuario.setCorreo(this.correo);
     this.loginUsuario.setClave(this.passw);
 
@@ -76,14 +76,31 @@ export class HomePage {
       loading.dismiss();
     }, 15000);
 
-      this.auth.loginUser(this.loginUsuario.getCorreo(), this.loginUsuario.getClave().toString())
+    let voto:boolean;
+
+     this.auth.loginUser(this.loginUsuario.getCorreo(), this.loginUsuario.getClave().toString())
         .then(() => {
-            this.navCtrl.push('VotoPage');
-        })
+
+             this.auth.getUsuariosLista().subscribe(lista=>{
+              lista.forEach(usuario => {
+                if (usuario['correo']==this.loginUsuario.getCorreo()) {
+                  //console.log(this.db.verificarVotos(usuario['nombre']));
+                  this.loginUsuario.setNombre(usuario['nombre']);
+                  //voto = this.db.verificarVotos(this.loginUsuario.getNombre());
+                  //console.log('voto home.ts', voto);
+                }
+              }); //termina foreach
+
+              this.navCtrl.push('VotoPage', {'nombre': this.loginUsuario.getNombre()});
+
+            });//fin subscribe
+      })
   }
 
 
   private salir(): void {
+    this.correo=null;
+    this.passw=null;
     this.platform.exitApp();
   }
 

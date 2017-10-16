@@ -1,3 +1,26 @@
 page-voto {
+  .button{
+    height: 100px;
+    font-size: 25px;
+  }
+  .button:active{
+    font-size: 40px;
+    background-color: rgba(8, 184, 31, 0.86);
+  }
+  .button:focus{
+    font-family: fantasy;
+    color: rgba(212, 3, 3, 0.83);
+  }
+
+  .img{
+    width: 300px;
+    height: 300px;
+    position: absolute;
+    left:50%;
+    top:50%;
+    margin-top: -96px;
+    margin-left: -96px;
+    margin-top: -10px
+  }
 
 }

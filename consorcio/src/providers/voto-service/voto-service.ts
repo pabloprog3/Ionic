@@ -24,9 +24,40 @@ export class VotoServiceProvider {
       this.votos.push(voto);
     }else{
       return;
-    }
-
-
   }
+}
+
+public verificarVotos(nombre:string):any{
+  let boolVoto: boolean = false;
+  this.votos.forEach(voto => {
+    console.log('iskan', voto);
+      console.log('nombre provider:', voto["nombre"], '; ', nombre);
+      if (voto['nombre'] == nombre) {
+        boolVoto = true;
+        console.log('boolVoto service', boolVoto);
+      return boolVoto
+    }
+  });
+
+  /*
+this.votos.subscribe(voto=>{
+     voto.forEach(voto=>{
+      console.log('nombre provider:', voto['nombre'], '; ', nombre);
+      if (voto['nombre'] == nombre) {
+        boolVoto = true;
+        console.log('boolVoto service', boolVoto);
+        return boolVoto
+
+      }
+    });
+  });
+*/
+return boolVoto;
+}
+
+
+
+
+
 
 }

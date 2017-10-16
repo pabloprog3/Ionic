@@ -2,16 +2,14 @@
 <ion-header>
   <ion-navbar color="toolbar1">
     <ion-title text-center color="primary">
-      <ion-label >Votacion</ion-label>
+      <ion-label >Elegir una opción</ion-label>
     </ion-title>
   </ion-navbar>
 </ion-header>
 <ion-content padding style="background-color:rgba(135, 208, 250, 0.86)">
 
   <ion-list   radio-group [(ngModel)]="voto">
-    <ion-list-header color="warning">
-       <ion-label color="dark">Elegir </ion-label>
-    </ion-list-header>
+
   <ion-item color="warning2">
     <ion-label>Plantas</ion-label>
     <ion-radio value="plantas"></ion-radio>
@@ -24,17 +22,26 @@
 
 <br><br>
 
-<button color="secondary" ion-button (click)="votar()" full round>
+<ion-card *ngIf="boolVoto" style="background-color:rgba(255, 38, 38, 0.2)">
+    <ion-card-header color="warning" text-center>
+        <ion-label text-uppercase><h3>{{nombre}}: Usted ya voto</h3></ion-label>
+    </ion-card-header>
+
+    <ion-card-content color="primary">
+        Puede seguir los resultados apretando el botón de abajo.
+        Gracias por participar.
+    </ion-card-content>
+
+</ion-card>
+
+<button *ngIf="!boolVoto" color="secondary" ion-button (click)="votar()" full round>
   Registrar Voto<br><ion-icon name="thumbs-up"></ion-icon>
 </button>
 <br>
-<button  color="toolbar1" ion-button (click)="mostrarResultados()" full round>
-  <ion-icon name="podium"></ion-icon> Ver Resultados
-</button>
+<div class="img">
+  <img (click)="mostrarResultados()" src="../../assets/icono_stat.png" />
+</div>
 
-<resultados *ngIf="mostrarGrafico"></resultados>
-
-</ion-content>
 
 <ion-footer>
   <ion-toolbar color="primary">
