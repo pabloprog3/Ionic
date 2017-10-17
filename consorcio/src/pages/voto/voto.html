@@ -23,12 +23,12 @@
 <br><br>
 
 <ion-card *ngIf="boolVoto" style="background-color:rgba(255, 38, 38, 0.2)">
-    <ion-card-header color="warning" text-center>
-        <ion-label text-uppercase><h3>{{nombre}}: Usted ya voto</h3></ion-label>
+    <ion-card-header text-center text-uppercase>
+      <h3 class="textoTitulo">{{nombre}}: Usted ya voto</h3>
     </ion-card-header>
 
     <ion-card-content color="primary">
-        Puede seguir los resultados apretando el botón de abajo.
+        Puede seguir los resultados de la votación apretando el botón de abajo.
         Gracias por participar.
     </ion-card-content>
 
